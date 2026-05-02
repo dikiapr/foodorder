@@ -1,10 +1,11 @@
+using FoodStore.DTOs.Request;
 using FoodStore.Models;
 
 namespace FoodStore.Interfaces;
 
 public interface IProductRepository
 {
-    Task<IEnumerable<Product>> GetAllAsync(int? categoryId);
+    Task<(IEnumerable<Product> Items, int TotalCount)> GetAllAsync(ProductQueryParameters parameters);
     Task<Product?> GetByIdAsync(int id);
     Task AddAsync(Product product);
     Task UpdateAsync(Product product);

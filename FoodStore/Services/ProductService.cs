@@ -1,3 +1,4 @@
+using FoodStore.Common;
 using FoodStore.DTOs.Request;
 using FoodStore.DTOs.Response;
 using FoodStore.Interfaces;
@@ -14,11 +15,23 @@ public class ProductService : IProductService
         _productRepository = productRepository;
     }
 
-    public async Task<IEnumerable<ProductResponse>> GetAllAsync(int? categoryId)
+    public async Task<PagedResponse<ProductResponse>> GetAllAsync(ProductQueryParameters parameters)
     {
-        IEnumerable<Product> products = await _productRepository.GetAllAsync(categoryId);
-        IEnumerable<ProductResponse> responses = products.Select(ToResponse);
-        return responses;
+        (IEnumerable<Product> Items, int TotalCount) paginatedProducts = await _productRepository.GetAllAsync(parameters);
+
+        IEnumerable<ProductResponse> data = paginatedProducts.Items.Select(ToResponse);
+        int totalPages = (int)Math.Ceiling(paginatedProducts.TotalCount / (double)parameters.PageSize);
+
+        PagedResponse<ProductResponse> response = new PagedResponse<ProductResponse>()
+        {
+            Data = data,
+            Page = parameters.Page,
+            PageSize = parameters.PageSize,
+            TotalCount = paginatedProducts.TotalCount,
+            TotalPages = totalPages
+        };
+
+        return response;
     }
 
     public async Task<ProductResponse?> GetByIdAsync(int id)

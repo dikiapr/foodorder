@@ -1,4 +1,5 @@
 using FoodStore.Data;
+using FoodStore.DTOs.Request;
 using FoodStore.Interfaces;
 using FoodStore.Models;
 using Microsoft.EntityFrameworkCore;
@@ -14,19 +15,40 @@ public class ProductRepository : IProductRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Product>> GetAllAsync(int? categoryId)
+    public async Task<(IEnumerable<Product> Items, int TotalCount)> GetAllAsync(ProductQueryParameters parameters)
     {
         IQueryable<Product> query = _context.Products
             .Include(product => product.Category)
             .AsQueryable();
 
-        if (categoryId.HasValue)
+        if (!string.IsNullOrWhiteSpace(parameters.Search))
         {
-            query = query.Where(product => product.CategoryId == categoryId.Value);
+            query = query.Where(product => product.Name.Contains(parameters.Search));
         }
 
-        List<Product> products = await query.ToListAsync();
-        return products;
+        if (parameters.CategoryId.HasValue)
+        {
+            query = query.Where(product => product.CategoryId == parameters.CategoryId.Value);
+        }
+
+        query = (parameters.SortBy.ToLower(), parameters.SortOrder.ToLower()) switch
+        {
+            ("price", "desc") => query.OrderByDescending(product => product.Price),
+            ("price", _)      => query.OrderBy(product => product.Price),
+            ("stock", "desc") => query.OrderByDescending(product => product.Stock),
+            ("stock", _)      => query.OrderBy(product => product.Stock),
+            (_, "desc")       => query.OrderByDescending(product => product.Name),
+            _                 => query.OrderBy(product => product.Name)
+        };
+
+        int totalCount = await query.CountAsync();
+
+        List<Product> items = await query
+            .Skip((parameters.Page - 1) * parameters.PageSize)
+            .Take(parameters.PageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
     }
 
     public async Task<Product?> GetByIdAsync(int id)

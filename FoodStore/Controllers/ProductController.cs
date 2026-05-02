@@ -1,3 +1,4 @@
+using FoodStore.Common;
 using FoodStore.DTOs.Request;
 using FoodStore.DTOs.Response;
 using FoodStore.Interfaces;
@@ -17,10 +18,10 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductResponse>>> GetAll([FromQuery] int? categoryId)
+    public async Task<ActionResult<PagedResponse<ProductResponse>>> GetAll([FromQuery] ProductQueryParameters parameters)
     {
-        IEnumerable<ProductResponse> products = await _productService.GetAllAsync(categoryId);
-        return Ok(products);
+        PagedResponse<ProductResponse> response = await _productService.GetAllAsync(parameters);
+        return Ok(response);
     }
 
     [HttpGet("{id}")]
