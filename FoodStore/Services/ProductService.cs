@@ -1,49 +1,34 @@
-using FoodStore.Data;
 using FoodStore.DTOs.Request;
 using FoodStore.DTOs.Response;
 using FoodStore.Interfaces;
 using FoodStore.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace FoodStore.Services;
 
 public class ProductService : IProductService
 {
-    private readonly AppDbContext _context;
+    private readonly IProductRepository _productRepository;
 
-    public ProductService(AppDbContext context)
+    public ProductService(IProductRepository productRepository)
     {
-        _context = context;
+        _productRepository = productRepository;
     }
 
     public async Task<IEnumerable<ProductResponse>> GetAllAsync(int? categoryId)
     {
-        IQueryable<Product> query = _context.Products
-            .Include(product => product.Category)
-            .AsQueryable();
-
-        if (categoryId.HasValue)
-        {
-            query = query.Where(product => product.CategoryId == categoryId.Value);
-        }
-
-        return await query.Select(product => ToResponse(product)).ToListAsync();
+        IEnumerable<Product> products = await _productRepository.GetAllAsync(categoryId);
+        return products.Select(product => ToResponse(product));
     }
 
     public async Task<ProductResponse?> GetByIdAsync(int id)
     {
-        Product? product = await _context.Products
-            .Include(product => product.Category)
-            .FirstOrDefaultAsync(product => product.Id == id);
-
+        Product? product = await _productRepository.GetByIdAsync(id);
         return product == null ? null : ToResponse(product);
     }
 
     public async Task<ProductResponse> CreateAsync(CreateProductRequest request)
     {
-        bool categoryExists = await _context.Categories
-            .AnyAsync(category => category.Id == request.CategoryId);
-
+        bool categoryExists = await _productRepository.CategoryExistsAsync(request.CategoryId);
         if (!categoryExists)
         {
             throw new InvalidOperationException("Category not found.");
@@ -59,27 +44,19 @@ public class ProductService : IProductService
             CategoryId = request.CategoryId
         };
 
-        _context.Products.Add(product);
-        await _context.SaveChangesAsync();
-        await _context.Entry(product).Reference(product => product.Category).LoadAsync();
-
+        await _productRepository.AddAsync(product);
         return ToResponse(product);
     }
 
     public async Task<ProductResponse?> UpdateAsync(int id, UpdateProductRequest request)
     {
-        Product? product = await _context.Products
-            .Include(product => product.Category)
-            .FirstOrDefaultAsync(product => product.Id == id);
-
+        Product? product = await _productRepository.GetByIdAsync(id);
         if (product == null)
         {
             return null;
         }
 
-        bool categoryExists = await _context.Categories
-            .AnyAsync(category => category.Id == request.CategoryId);
-
+        bool categoryExists = await _productRepository.CategoryExistsAsync(request.CategoryId);
         if (!categoryExists)
         {
             throw new InvalidOperationException("Category not found.");
@@ -92,31 +69,25 @@ public class ProductService : IProductService
         product.ImageUrl = request.ImageUrl;
         product.CategoryId = request.CategoryId;
 
-        await _context.SaveChangesAsync();
-        await _context.Entry(product).Reference(product => product.Category).LoadAsync();
-
+        await _productRepository.UpdateAsync(product);
         return ToResponse(product);
     }
 
     public async Task<bool> DeleteAsync(int id)
     {
-        Product? product = await _context.Products.FindAsync(id);
-
+        Product? product = await _productRepository.GetByIdAsync(id);
         if (product == null)
         {
             return false;
         }
 
-        bool hasOrderItems = await _context.OrderItems.AnyAsync(orderItem => orderItem.ProductId == id);
-
+        bool hasOrderItems = await _productRepository.HasOrderItemsAsync(id);
         if (hasOrderItems)
         {
             throw new InvalidOperationException("Cannot delete product that has order history.");
         }
 
-        _context.Products.Remove(product);
-        await _context.SaveChangesAsync();
-
+        await _productRepository.DeleteAsync(product);
         return true;
     }
 
