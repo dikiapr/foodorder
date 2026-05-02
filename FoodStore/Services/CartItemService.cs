@@ -8,10 +8,12 @@ namespace FoodStore.Services;
 public class CartItemService : ICartItemService
 {
     private readonly ICartItemRepository _cartItemRepository;
+    private readonly IProductRepository _productRepository;
 
-    public CartItemService(ICartItemRepository cartItemRepository)
+    public CartItemService(ICartItemRepository cartItemRepository, IProductRepository productRepository)
     {
         _cartItemRepository = cartItemRepository;
+        _productRepository = productRepository;
     }
 
     public async Task<IEnumerable<CartItemResponse>> GetCartAsync(int userId)
@@ -29,13 +31,19 @@ public class CartItemService : ICartItemService
             throw new InvalidOperationException("User not found.");
         }
 
-        bool productExists = await _cartItemRepository.ProductExistsAsync(request.ProductId);
-        if (!productExists)
+        Product? product = await _productRepository.GetByIdAsync(request.ProductId);
+        if (product == null)
         {
             throw new InvalidOperationException("Product not found.");
         }
 
         CartItem? existing = await _cartItemRepository.GetByUserAndProductAsync(request.UserId, request.ProductId);
+
+        int totalQuantity = (existing?.Quantity ?? 0) + request.Quantity;
+        if (totalQuantity > product.Stock)
+        {
+            throw new InvalidOperationException($"Insufficient stock. Available: {product.Stock}.");
+        }
 
         if (existing != null)
         {
@@ -63,6 +71,12 @@ public class CartItemService : ICartItemService
         if (cartItem == null)
         {
             return null;
+        }
+
+        Product? product = await _productRepository.GetByIdAsync(cartItem.ProductId);
+        if (request.Quantity > product!.Stock)
+        {
+            throw new InvalidOperationException($"Insufficient stock. Available: {product.Stock}.");
         }
 
         cartItem.Quantity = request.Quantity;

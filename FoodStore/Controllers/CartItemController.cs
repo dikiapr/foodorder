@@ -40,14 +40,21 @@ public class CartItemController : ControllerBase
     [HttpPut("{id}")]
     public async Task<ActionResult<CartItemResponse>> UpdateQuantity([FromRoute] int id, [FromBody] UpdateCartItemRequest request)
     {
-        CartItemResponse? item = await _cartItemService.UpdateQuantityAsync(id, request);
-
-        if (item == null)
+        try
         {
-            return NotFound();
-        }
+            CartItemResponse? item = await _cartItemService.UpdateQuantityAsync(id, request);
 
-        return Ok(item);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(item);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpDelete("{id}")]
