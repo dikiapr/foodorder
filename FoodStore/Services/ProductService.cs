@@ -17,13 +17,15 @@ public class ProductService : IProductService
     public async Task<IEnumerable<ProductResponse>> GetAllAsync(int? categoryId)
     {
         IEnumerable<Product> products = await _productRepository.GetAllAsync(categoryId);
-        return products.Select(product => ToResponse(product));
+        IEnumerable<ProductResponse> responses = products.Select(ToResponse);
+        return responses;
     }
 
     public async Task<ProductResponse?> GetByIdAsync(int id)
     {
         Product? product = await _productRepository.GetByIdAsync(id);
-        return product == null ? null : ToResponse(product);
+        ProductResponse? response = product == null ? null : ToResponse(product);
+        return response;
     }
 
     public async Task<ProductResponse> CreateAsync(CreateProductRequest request)
@@ -45,7 +47,8 @@ public class ProductService : IProductService
         };
 
         await _productRepository.AddAsync(product);
-        return ToResponse(product);
+        ProductResponse response = ToResponse(product);
+        return response;
     }
 
     public async Task<ProductResponse?> UpdateAsync(int id, UpdateProductRequest request)
@@ -70,7 +73,8 @@ public class ProductService : IProductService
         product.CategoryId = request.CategoryId;
 
         await _productRepository.UpdateAsync(product);
-        return ToResponse(product);
+        ProductResponse? response = ToResponse(product);
+        return response;
     }
 
     public async Task<bool> DeleteAsync(int id)

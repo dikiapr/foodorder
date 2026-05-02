@@ -25,14 +25,16 @@ public class ProductRepository : IProductRepository
             query = query.Where(product => product.CategoryId == categoryId.Value);
         }
 
-        return await query.ToListAsync();
+        List<Product> products = await query.ToListAsync();
+        return products;
     }
 
     public async Task<Product?> GetByIdAsync(int id)
     {
-        return await _context.Products
+        Product? product = await _context.Products
             .Include(product => product.Category)
             .FirstOrDefaultAsync(product => product.Id == id);
+        return product;
     }
 
     public async Task AddAsync(Product product)
@@ -56,11 +58,13 @@ public class ProductRepository : IProductRepository
 
     public async Task<bool> CategoryExistsAsync(int categoryId)
     {
-        return await _context.Categories.AnyAsync(category => category.Id == categoryId);
+        bool categoryExists = await _context.Categories.AnyAsync(category => category.Id == categoryId);
+        return categoryExists;
     }
 
     public async Task<bool> HasOrderItemsAsync(int productId)
     {
-        return await _context.OrderItems.AnyAsync(orderItem => orderItem.ProductId == productId);
+        bool hasOrderItems = await _context.OrderItems.AnyAsync(orderItem => orderItem.ProductId == productId);
+        return hasOrderItems;
     }
 }
