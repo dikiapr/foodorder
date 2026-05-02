@@ -18,28 +18,32 @@ public class ProductService : IProductService
 
     public async Task<IEnumerable<ProductResponse>> GetAllAsync(int? categoryId)
     {
-        IQueryable<Product> query = _context.Products.Include(p => p.Category).AsQueryable();
+        IQueryable<Product> query = _context.Products
+            .Include(product => product.Category)
+            .AsQueryable();
 
         if (categoryId.HasValue)
         {
-            query = query.Where(p => p.CategoryId == categoryId.Value);
+            query = query.Where(product => product.CategoryId == categoryId.Value);
         }
 
-        return await query.Select(p => ToResponse(p)).ToListAsync();
+        return await query.Select(product => ToResponse(product)).ToListAsync();
     }
 
     public async Task<ProductResponse?> GetByIdAsync(int id)
     {
         Product? product = await _context.Products
-            .Include(p => p.Category)
-            .FirstOrDefaultAsync(p => p.Id == id);
+            .Include(product => product.Category)
+            .FirstOrDefaultAsync(product => product.Id == id);
 
         return product == null ? null : ToResponse(product);
     }
 
     public async Task<ProductResponse> CreateAsync(CreateProductRequest request)
     {
-        bool categoryExists = await _context.Categories.AnyAsync(c => c.Id == request.CategoryId);
+        bool categoryExists = await _context.Categories
+            .AnyAsync(category => category.Id == request.CategoryId);
+
         if (!categoryExists)
         {
             throw new InvalidOperationException("Category not found.");
@@ -57,7 +61,7 @@ public class ProductService : IProductService
 
         _context.Products.Add(product);
         await _context.SaveChangesAsync();
-        await _context.Entry(product).Reference(p => p.Category).LoadAsync();
+        await _context.Entry(product).Reference(product => product.Category).LoadAsync();
 
         return ToResponse(product);
     }
@@ -65,15 +69,17 @@ public class ProductService : IProductService
     public async Task<ProductResponse?> UpdateAsync(int id, UpdateProductRequest request)
     {
         Product? product = await _context.Products
-            .Include(p => p.Category)
-            .FirstOrDefaultAsync(p => p.Id == id);
+            .Include(product => product.Category)
+            .FirstOrDefaultAsync(product => product.Id == id);
 
         if (product == null)
         {
             return null;
         }
 
-        bool categoryExists = await _context.Categories.AnyAsync(c => c.Id == request.CategoryId);
+        bool categoryExists = await _context.Categories
+            .AnyAsync(category => category.Id == request.CategoryId);
+
         if (!categoryExists)
         {
             throw new InvalidOperationException("Category not found.");
@@ -87,7 +93,7 @@ public class ProductService : IProductService
         product.CategoryId = request.CategoryId;
 
         await _context.SaveChangesAsync();
-        await _context.Entry(product).Reference(p => p.Category).LoadAsync();
+        await _context.Entry(product).Reference(product => product.Category).LoadAsync();
 
         return ToResponse(product);
     }
@@ -101,7 +107,8 @@ public class ProductService : IProductService
             return false;
         }
 
-        bool hasOrderItems = await _context.OrderItems.AnyAsync(oi => oi.ProductId == id);
+        bool hasOrderItems = await _context.OrderItems.AnyAsync(orderItem => orderItem.ProductId == id);
+
         if (hasOrderItems)
         {
             throw new InvalidOperationException("Cannot delete product that has order history.");
