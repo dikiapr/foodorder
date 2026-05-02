@@ -1,4 +1,5 @@
 using FoodStore.Data;
+using FoodStore.DTOs.Request;
 using FoodStore.Enums;
 using FoodStore.Interfaces;
 using FoodStore.Models;
@@ -15,15 +16,35 @@ public class OrderRepository : IOrderRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Order>> GetByUserIdAsync(int userId)
+    public async Task<(IEnumerable<Order> Items, int TotalCount)> GetByUserIdAsync(int userId, OrderQueryParameters parameters)
     {
-        List<Order> orders = await _context.Orders
+        IQueryable<Order> query = _context.Orders
             .Include(order => order.OrderItems)
                 .ThenInclude(orderItem => orderItem.Product)
             .Where(order => order.UserId == userId)
-            .OrderByDescending(order => order.OrderDate)
+            .AsQueryable();
+
+        if (parameters.Status.HasValue)
+        {
+            query = query.Where(order => order.Status == parameters.Status.Value);
+        }
+
+        query = (parameters.SortBy.ToLower(), parameters.SortOrder.ToLower()) switch
+        {
+            ("totalamount", "asc")  => query.OrderBy(order => order.TotalAmount),
+            ("totalamount", _)      => query.OrderByDescending(order => order.TotalAmount),
+            (_, "asc")              => query.OrderBy(order => order.OrderDate),
+            _                       => query.OrderByDescending(order => order.OrderDate)
+        };
+
+        int totalCount = await query.CountAsync();
+
+        List<Order> items = await query
+            .Skip((parameters.Page - 1) * parameters.PageSize)
+            .Take(parameters.PageSize)
             .ToListAsync();
-        return orders;
+
+        return (items, totalCount);
     }
 
     public async Task<Order?> GetByIdAsync(int id)

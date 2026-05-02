@@ -1,3 +1,4 @@
+using FoodStore.Common;
 using FoodStore.DTOs.Request;
 using FoodStore.DTOs.Response;
 using FoodStore.Interfaces;
@@ -16,11 +17,23 @@ public class OrderService : IOrderService
         _cartItemRepository = cartItemRepository;
     }
 
-    public async Task<IEnumerable<OrderResponse>> GetByUserIdAsync(int userId)
+    public async Task<PagedResponse<OrderResponse>> GetByUserIdAsync(int userId, OrderQueryParameters parameters)
     {
-        IEnumerable<Order> orders = await _orderRepository.GetByUserIdAsync(userId);
-        IEnumerable<OrderResponse> responses = orders.Select(ToResponse);
-        return responses;
+        (IEnumerable<Order> Items, int TotalCount) paginatedOrders = await _orderRepository.GetByUserIdAsync(userId, parameters);
+
+        IEnumerable<OrderResponse> data = paginatedOrders.Items.Select(ToResponse);
+        int totalPages = (int)Math.Ceiling(paginatedOrders.TotalCount / (double)parameters.PageSize);
+
+        PagedResponse<OrderResponse> response = new PagedResponse<OrderResponse>()
+        {
+            Data = data,
+            Page = parameters.Page,
+            PageSize = parameters.PageSize,
+            TotalCount = paginatedOrders.TotalCount,
+            TotalPages = totalPages
+        };
+
+        return response;
     }
 
     public async Task<OrderResponse?> GetByIdAsync(int id)

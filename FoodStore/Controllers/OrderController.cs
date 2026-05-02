@@ -1,3 +1,4 @@
+using FoodStore.Common;
 using FoodStore.DTOs.Request;
 using FoodStore.DTOs.Response;
 using FoodStore.Interfaces;
@@ -17,9 +18,9 @@ public class OrderController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<OrderResponse>>> GetByUserId([FromQuery] int userId)
+    public async Task<ActionResult<PagedResponse<OrderResponse>>> GetByUserId([FromQuery] int userId, [FromQuery] OrderQueryParameters parameters)
     {
-        IEnumerable<OrderResponse> orders = await _orderService.GetByUserIdAsync(userId);
+        PagedResponse<OrderResponse> orders = await _orderService.GetByUserIdAsync(userId, parameters);
         return Ok(orders);
     }
 
