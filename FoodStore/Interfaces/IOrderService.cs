@@ -10,4 +10,5 @@ public interface IOrderService
     Task<OrderResponse?> GetByIdAsync(int id);
     Task<OrderResponse> CheckoutAsync(int userId);
     Task<OrderResponse?> UpdateStatusAsync(int id, UpdateOrderStatusRequest request);
+    Task<(OrderResponse? Order, string? Error)> ConfirmReceivedAsync(int orderId, int userId);
 }

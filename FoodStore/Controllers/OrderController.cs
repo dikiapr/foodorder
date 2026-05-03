@@ -73,4 +73,28 @@ public class OrderController : ControllerBase
 
         return Ok(order);
     }
+
+    [HttpPut("{id}/confirm-received")]
+    [Authorize(Roles = "Customer")]
+    public async Task<ActionResult<OrderResponse>> ConfirmReceived([FromRoute] int id)
+    {
+        int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+        (OrderResponse? order, string? error) = await _orderService.ConfirmReceivedAsync(id, userId);
+
+        if (order == null && error == null)
+        {
+            return NotFound();
+        }
+        if (error == "Forbidden")
+        {
+            return Forbid();
+        }
+        if (error != null)
+        {
+            return BadRequest(new { message = error });
+        }
+
+        return Ok(order);
+    }
 }

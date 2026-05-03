@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, PackageCheck } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { getOrder } from '../../api/orderApi';
+import { getOrder, confirmReceived } from '../../api/orderApi';
 import StatusBadge from '../../components/StatusBadge';
 
 export default function OrderDetailPage() {
@@ -10,6 +10,7 @@ export default function OrderDetailPage() {
   const navigate = useNavigate();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [confirming, setConfirming] = useState(false);
 
   useEffect(() => {
     getOrder(id)
@@ -17,6 +18,19 @@ export default function OrderDetailPage() {
       .catch(() => { toast.error('Order not found'); navigate('/orders'); })
       .finally(() => setLoading(false));
   }, [id]);
+
+  const handleConfirmReceived = async () => {
+    setConfirming(true);
+    try {
+      const res = await confirmReceived(id);
+      setOrder(res.data);
+      toast.success('Order marked as completed. Enjoy your meal!');
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to confirm order');
+    } finally {
+      setConfirming(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -42,12 +56,32 @@ export default function OrderDetailPage() {
       <div className="flex items-start justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Order #{order.id}</h1>
-          <p className="text-sm text-gray-400 mt-0.5 flex items-center gap-1.5">
+          <p className="text-sm text-gray-400 mt-0.5">
             Placed on {new Date(order.orderDate).toLocaleString()}
           </p>
         </div>
         <StatusBadge status={order.status} />
       </div>
+
+      {/* Confirm received banner — only shown during Delivery */}
+      {order.status === 'Delivery' && (
+        <div className="mb-6 bg-purple-50 border border-purple-200 rounded-2xl p-4 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <PackageCheck size={24} className="text-purple-500 shrink-0" />
+            <div>
+              <p className="font-semibold text-purple-900 text-sm">Your order is on its way!</p>
+              <p className="text-xs text-purple-500 mt-0.5">Once you receive your order, please confirm below.</p>
+            </div>
+          </div>
+          <button
+            onClick={handleConfirmReceived}
+            disabled={confirming}
+            className="shrink-0 bg-purple-600 hover:bg-purple-700 disabled:opacity-60 text-white text-sm font-semibold px-4 py-2 rounded-xl transition"
+          >
+            {confirming ? 'Confirming...' : 'Confirm Received'}
+          </button>
+        </div>
+      )}
 
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Items */}
@@ -64,9 +98,7 @@ export default function OrderDetailPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-gray-900 text-sm">{item.productName}</p>
-                    <p className="text-xs text-gray-400">
-                      Unit price: ${item.unitPrice.toFixed(2)}
-                    </p>
+                    <p className="text-xs text-gray-400">Unit price: ${item.unitPrice.toFixed(2)}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-gray-400">Qty: {item.quantity}</p>

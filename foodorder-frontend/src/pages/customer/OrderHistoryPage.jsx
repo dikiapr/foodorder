@@ -6,7 +6,7 @@ import { getOrders } from '../../api/orderApi';
 import StatusBadge from '../../components/StatusBadge';
 import Pagination from '../../components/Pagination';
 
-const STATUS_OPTIONS = ['', 'Pending', 'Paid', 'Completed', 'Cancelled'];
+const STATUS_OPTIONS = ['', 'Pending', 'Processing', 'Delivery', 'Completed', 'Cancelled'];
 
 export default function OrderHistoryPage() {
   const navigate = useNavigate();

@@ -5,8 +5,22 @@ import { getOrders, updateOrderStatus } from '../../api/orderApi';
 import StatusBadge from '../../components/StatusBadge';
 import Pagination from '../../components/Pagination';
 
-const STATUS_OPTIONS = ['', 'Pending', 'Paid', 'Completed', 'Cancelled'];
-const STATUS_VALUES = ['Pending', 'Paid', 'Completed', 'Cancelled'];
+const STATUS_OPTIONS = ['', 'Pending', 'Processing', 'Delivery', 'Completed', 'Cancelled'];
+
+// Admin-controlled transitions only (customer handles Completed via confirm-received)
+const NEXT_STATUSES = {
+  Pending:    ['Processing', 'Cancelled'],
+  Processing: ['Delivery', 'Cancelled'],
+  Delivery:   [],  // customer confirms receipt
+  Completed:  [],
+  Cancelled:  [],
+};
+
+const STATUS_DESCRIPTIONS = {
+  Processing: 'Order confirmed — food is being prepared.',
+  Delivery:   'Food is ready and out for delivery.',
+  Cancelled:  'Order is cancelled and will not be processed.',
+};
 
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -41,7 +55,7 @@ export default function AdminOrdersPage() {
 
   const openStatusModal = (order) => {
     setSelectedOrder(order);
-    setNewStatus(order.status);
+    setNewStatus(NEXT_STATUSES[order.status][0] ?? order.status);
     setShowModal(true);
   };
 
@@ -144,17 +158,24 @@ export default function AdminOrdersPage() {
                 <StatusBadge status={selectedOrder.status} />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">New Status</label>
-                <div className="space-y-2">
-                  {STATUS_VALUES.map((s) => (
-                    <label key={s} className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition ${
-                      newStatus === s ? 'border-orange-400 bg-orange-50' : 'border-gray-200 hover:border-gray-300'
-                    }`}>
-                      <input type="radio" name="status" value={s} checked={newStatus === s} onChange={() => setNewStatus(s)} className="accent-orange-500" />
-                      <StatusBadge status={s} />
-                    </label>
-                  ))}
-                </div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">Next Status</label>
+                {NEXT_STATUSES[selectedOrder.status].length === 0 ? (
+                  <p className="text-sm text-gray-400 italic">This order is already in a final state.</p>
+                ) : (
+                  <div className="space-y-2">
+                    {NEXT_STATUSES[selectedOrder.status].map((s) => (
+                      <label key={s} className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition ${
+                        newStatus === s ? 'border-orange-400 bg-orange-50' : 'border-gray-200 hover:border-gray-300'
+                      }`}>
+                        <input type="radio" name="status" value={s} checked={newStatus === s} onChange={() => setNewStatus(s)} className="accent-orange-500" />
+                        <div>
+                          <StatusBadge status={s} />
+                          <p className="text-xs text-gray-400 mt-1">{STATUS_DESCRIPTIONS[s]}</p>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                )}
               </div>
               <div className="flex gap-3 pt-1">
                 <button onClick={() => setShowModal(false)}

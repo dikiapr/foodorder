@@ -1,6 +1,7 @@
 using FoodStore.Common;
 using FoodStore.DTOs.Request;
 using FoodStore.DTOs.Response;
+using FoodStore.Enums;
 using FoodStore.Interfaces;
 using FoodStore.Models;
 
@@ -76,13 +77,37 @@ public class OrderService : IOrderService
         order.Status = request.Status;
         await _orderRepository.UpdateStatusAsync(order);
 
-        OrderResponse? response = ToResponse(order);
-        return response;
+        return ToResponse(order);
+    }
+
+    public async Task<(OrderResponse? Order, string? Error)> ConfirmReceivedAsync(int orderId, int userId)
+    {
+        Order? order = await _orderRepository.GetByIdAsync(orderId);
+
+        if (order == null)
+        {
+            return (null, null);
+        }
+
+        if (order.UserId != userId)
+        {
+            return (null, "Forbidden");
+        }
+
+        if (order.Status != OrderStatus.Delivery)
+        {
+            return (null, "Order must be in Delivery status before it can be completed.");
+        }
+
+        order.Status = OrderStatus.Completed;
+        await _orderRepository.UpdateStatusAsync(order);
+
+        return (ToResponse(order), null);
     }
 
     private static OrderResponse ToResponse(Order order)
     {
-        return new OrderResponse
+        return new OrderResponse()
         {
             Id = order.Id,
             UserId = order.UserId,
