@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Product Detail - FoodStore</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#f97316",
+                        "primary-fixed-dim": "#ffb690",
+                        "surface-dim": "#edd5cb",
+                        "surface": "#fff8f6",
+                        "tertiary": "#006398",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#ffb690",
+                        "surface-tint": "#9d4300",
+                        "surface-container-highest": "#f6ded3",
+                        "surface-container-high": "#fce3d9",
+                        "surface-bright": "#fff8f6",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#582200",
+                        "inverse-surface": "#3c2d26",
+                        "outline": "#8c7164",
+                        "secondary-container": "#2170e4",
+                        "background": "#fff8f6",
+                        "tertiary-container": "#00a2f4",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-surface": "#251913",
+                        "inverse-on-surface": "#ffede6",
+                        "on-secondary-fixed-variant": "#004395",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#ffdbca",
+                        "on-tertiary-fixed": "#001d32",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#341100",
+                        "primary": "#9d4300",
+                        "on-secondary-container": "#fefcff",
+                        "on-surface-variant": "#584237",
+                        "on-tertiary-fixed-variant": "#004b74",
+                        "surface-container-low": "#fff1eb",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#f6ded3",
+                        "outline-variant": "#e0c0b1",
+                        "on-tertiary-container": "#003554",
+                        "on-secondary-fixed": "#001a42",
+                        "tertiary-fixed-dim": "#93ccff",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#ffeae0",
+                        "secondary": "#0058be",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#cde5ff",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-primary-fixed-variant": "#783200",
+                        "on-background": "#251913"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "lg": "48px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "md": "24px",
+                        "sm": "12px",
+                        "xl": "80px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-xl": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "caption": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "display-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased pt-16">
+<!-- TopNavBar Component -->
+<nav class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md font-inter antialiased fixed top-0 w-full z-50 border-b border-slate-100 dark:border-slate-800 shadow-sm flex justify-between items-center h-16 px-4 md:px-8 mx-auto">
+<div class="flex items-center gap-6">
+<span class="text-2xl font-black tracking-tight text-orange-600 dark:text-orange-500 cursor-pointer">FoodStore</span>
+<div class="hidden md:flex gap-6">
+<a class="text-orange-600 dark:text-orange-400 font-bold border-b-2 border-orange-600 py-5 hover:text-orange-500 dark:hover:text-orange-300 transition-colors duration-200 active:scale-95 transition-transform duration-150" href="#">Menu</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium py-5 hover:text-orange-500 dark:hover:text-orange-300 transition-colors duration-200 active:scale-95 transition-transform duration-150" href="#">Offers</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium py-5 hover:text-orange-500 dark:hover:text-orange-300 transition-colors duration-200 active:scale-95 transition-transform duration-150" href="#">My Orders</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-orange-500 dark:text-orange-400 hover:text-orange-600 transition-colors duration-200 active:scale-95">
+<span class="material-symbols-outlined relative" style="font-variation-settings: 'FILL' 0;">
+                    shopping_cart
+                    <span class="absolute -top-1 -right-1 flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-orange-500"></span>
+</span>
+</span>
+</button>
+<button class="text-orange-500 dark:text-orange-400 hover:text-orange-600 transition-colors duration-200 active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+<img alt="User profile" class="w-8 h-8 rounded-full border border-slate-200 object-cover cursor-pointer hover:opacity-80 transition-opacity" data-alt="A close up portrait photo of a smiling person, used as a circular avatar image in a top navigation bar. The lighting is bright and even, fitting a clean, modern user interface. The background is slightly out of focus, highlighting the subject's face." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiOzZyiGpufA9_y9ehlCXkMYuEJB9EiF4qYBJtLNA6zMlH0flYmHVyIA8i3k4hVHBM02wN4FPz1FMJYdpvW-M-_FYz63mWttfT6Qw3Mbh0RfHFQGEDaeAGEpfOAZVu-KeEf9HWuPhQJ8ozr2FXXuJwmGrSyPNvvyN0lPPcisIyCv-eXuWHZu1wq-eRd1UVHZe--TYuIb4av3KPhIlqz6_ZmRNTvRbcjXIUmbkbK_3G5n0gPOs2ITanqomeNwBP4QOKWpKEkDRxoDM"/>
+</div>
+</nav>
+<main class="max-w-[1280px] mx-auto px-4 md:px-8 py-lg min-h-[calc(100vh-16rem)]">
+<!-- Back Navigation -->
+<div class="mb-8">
+<a class="inline-flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined text-lg group-hover:-translate-x-1 transition-transform" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+                Back to Menu
+            </a>
+</div>
+<!-- Product Detail Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+<!-- Left: Image Gallery (Simplified for MVP) -->
+<div class="flex flex-col gap-4">
+<div class="relative w-full aspect-square bg-surface-container-low rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+<img alt="Classic Cheeseburger" class="w-full h-full object-cover" data-alt="A high-resolution, mouth-watering close-up of a gourmet cheeseburger on a rustic wooden board. The burger features a perfectly seared beef patty, melting cheddar cheese, crisp lettuce, fresh tomato slices, and a glossy, slightly toasted brioche bun. The lighting is bright and warm, creating a delicious and inviting atmosphere that fits a premium food delivery service's modern, minimalist aesthetic. The background is slightly blurred to keep the focus entirely on the food." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPQLCevz5tYmsn4u-1onCauhpM_BCmxcIaoUnFj7XOM5heqJbKFJ5mrWdIVXVrN1MZ3vnyvI9ge08mHVlCfrQFMeZDP54NjLRpOPdaJvxaHyHbdP8_EfNzsbwz4FY75slzkZ034jro-6YWNFKTITok4gIBGJi8Cm4tX2zqxZPtEzEE0BT3gSKbA3ogUL5l_TYpswOf74VKrJmkasy09sfjKlXLLPGyzYa-CgHBK7ZvpQyEFQUr5v-QZ1XL6fS7Y2KSwEnuJTV6GAU"/>
+</div>
+</div>
+<!-- Right: Product Info & Actions -->
+<div class="flex flex-col h-full py-2">
+<!-- Badge & Title -->
+<div class="mb-4 flex items-center gap-3">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-tertiary-fixed text-on-tertiary-fixed">
+                        Popular
+                    </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-variant text-on-surface-variant">
+                        Burgers
+                    </span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">The Classic Artisan Cheeseburger</h1>
+<!-- Price & Stock -->
+<div class="flex items-baseline gap-4 mb-6">
+<span class="font-display-xl text-display-xl text-primary">$14.99</span>
+<span class="flex items-center gap-1 font-label-md text-label-md text-green-700 bg-green-50 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        In Stock
+                    </span>
+</div>
+<!-- Description -->
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8 leading-relaxed">
+                    A timeless classic elevated to perfection. We start with a half-pound of our signature dry-aged beef blend, grilled to your liking. Topped with sharp aged cheddar, crisp butter lettuce, thick-cut heirloom tomatoes, and our secret house sauce, all served on a freshly baked, butter-toasted brioche bun.
+                </p>
+<!-- Divider -->
+<hr class="border-outline-variant mb-8"/>
+<!-- Actions: Quantity & Add to Cart -->
+<div class="flex flex-col sm:flex-row gap-4 items-end mt-auto">
+<!-- Quantity Selector -->
+<div class="flex flex-col gap-2 w-full sm:w-auto">
+<label class="font-label-md text-label-md text-on-surface-variant">Quantity</label>
+<div class="flex items-center justify-between bg-surface-container border border-outline-variant rounded-lg h-12 w-full sm:w-32 px-2 shadow-sm">
+<button aria-label="Decrease quantity" class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-variant rounded transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">remove</span>
+</button>
+<span class="font-label-md text-label-md text-on-surface w-8 text-center select-none">1</span>
+<button aria-label="Increase quantity" class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-variant rounded transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">add</span>
+</button>
+</div>
+</div>
+<!-- Add to Cart Button -->
+<button class="flex-1 bg-primary-container text-on-primary h-12 rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-primary hover:shadow-md transition-all active:scale-[0.98] w-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+                        Add to Cart - $14.99
+                    </button>
+</div>
+<!-- Additional Info (Dietary / Delivery) -->
+<div class="mt-8 grid grid-cols-2 gap-4">
+<div class="flex items-center gap-3 p-4 bg-surface-container-low rounded-lg border border-surface-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 0;">local_shipping</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Delivery</span>
+<span class="font-caption text-caption text-on-surface-variant">15-25 min</span>
+</div>
+</div>
+<div class="flex items-center gap-3 p-4 bg-surface-container-low rounded-lg border border-surface-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 0;">local_fire_department</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Calories</span>
+<span class="font-caption text-caption text-on-surface-variant">850 kcal</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Component -->
+<footer class="bg-slate-50 dark:bg-slate-950 w-full border-t border-slate-200 dark:border-slate-800 mt-auto">
+<div class="w-full py-12 px-4 md:px-8 max-w-[1280px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="font-black text-slate-400 dark:text-slate-600 text-lg">
+                FoodStore
+            </div>
+<div class="flex flex-wrap justify-center gap-6 font-inter text-xs uppercase tracking-wider">
+<a class="text-slate-500 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-300 transition-colors" href="#">Privacy Policy</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-300 transition-colors" href="#">Terms of Service</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-300 transition-colors" href="#">Contact</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-300 transition-colors" href="#">About Us</a>
+</div>
+<div class="font-inter text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                © 2024 FoodStore. The Professional Chef Next Door.
+            </div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FoodStore - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-container": "#f97316",
+                        "primary-fixed-dim": "#ffb690",
+                        "surface-dim": "#edd5cb",
+                        "surface": "#fff8f6",
+                        "tertiary": "#006398",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#ffb690",
+                        "surface-tint": "#9d4300",
+                        "surface-container-highest": "#f6ded3",
+                        "surface-container-high": "#fce3d9",
+                        "surface-bright": "#fff8f6",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#582200",
+                        "inverse-surface": "#3c2d26",
+                        "outline": "#8c7164",
+                        "secondary-container": "#2170e4",
+                        "background": "#fff8f6",
+                        "tertiary-container": "#00a2f4",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-surface": "#251913",
+                        "inverse-on-surface": "#ffede6",
+                        "on-secondary-fixed-variant": "#004395",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#ffdbca",
+                        "on-tertiary-fixed": "#001d32",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#341100",
+                        "primary": "#9d4300",
+                        "on-secondary-container": "#fefcff",
+                        "on-surface-variant": "#584237",
+                        "on-tertiary-fixed-variant": "#004b74",
+                        "surface-container-low": "#fff1eb",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#f6ded3",
+                        "outline-variant": "#e0c0b1",
+                        "on-tertiary-container": "#003554",
+                        "on-secondary-fixed": "#001a42",
+                        "tertiary-fixed-dim": "#93ccff",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#ffeae0",
+                        "secondary": "#0058be",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#cde5ff",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-primary-fixed-variant": "#783200",
+                        "on-background": "#251913"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "container-max": "1280px",
+                        "lg": "48px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "md": "24px",
+                        "sm": "12px",
+                        "xl": "80px",
+                        "xs": "4px"
+                    },
+                    fontFamily: {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-xl": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "caption": ["Inter"]
+                    },
+                    fontSize: {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "display-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen pt-16">
+<!-- TopNavBar Component -->
+<nav class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md text-orange-500 dark:text-orange-400 font-inter antialiased fixed top-0 w-full z-50 border-b border-slate-100 dark:border-slate-800 shadow-sm flex justify-between items-center h-16 px-4 md:px-8 max-w-7xl mx-auto">
+<div class="flex items-center gap-8">
+<div class="text-2xl font-black tracking-tight text-orange-600 dark:text-orange-500">FoodStore</div>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-orange-600 dark:text-orange-400 font-bold border-b-2 border-orange-600 hover:text-orange-500 dark:hover:text-orange-300 transition-colors duration-200 active:scale-95 transition-transform duration-150 py-4" href="#">Menu</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-orange-500 dark:hover:text-orange-300 transition-colors duration-200 active:scale-95 transition-transform duration-150 py-4" href="#">Offers</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-orange-500 dark:hover:text-orange-300 transition-colors duration-200 active:scale-95 transition-transform duration-150 py-4" href="#">My Orders</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex bg-surface-container-low rounded-full px-4 py-2 items-center focus-within:ring-2 focus-within:ring-primary-container transition-all">
+<span class="material-symbols-outlined text-outline mr-2 text-[20px]" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md placeholder:text-outline w-48 outline-none" placeholder="Search menu..." type="text"/>
+</div>
+<button class="hover:text-orange-500 dark:hover:text-orange-300 transition-colors duration-200 active:scale-95 transition-transform duration-150 relative p-2">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="absolute top-1 right-1 w-2.5 h-2.5 bg-primary-container rounded-full border-2 border-white"></span>
+</button>
+<button class="hover:text-orange-500 dark:hover:text-orange-300 transition-colors duration-200 active:scale-95 transition-transform duration-150 p-2">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden ml-2 cursor-pointer border border-outline-variant">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A close-up portrait of a smiling person, used as a generic user profile picture in a light-mode modern interface. The lighting is soft and natural, emphasizing approachability within a clean, warm aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzRyZMcS5IxUzMwtFzxybF0pb2BCKDhRMxGcSE6YrlrQ2EZy3KCKsN_JR_c-iSNP-WaKXodo395hmiFXYch1hxK-Y3cGXT9HxNB4L7rb-8X-0nbYGpeDE199-FalmjpwM_CQvxFvQ3xURNYBYdWxZthNHqq_0_4Z6QfKcxEGHcrP3ofi7Ey2P-YhiKbiAebgMYjhfnwM2G1-cfn2NoO9BQItCb5WioaBq3SmFfOXdyInRV-3H9krfAvhs0XFQTcr7f-RUuNFfLgMw"/>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="max-w-[1280px] mx-auto px-gutter py-lg">
+<!-- Header & Filters -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-md gap-4">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Discover Our Menu</h1>
+<div class="flex flex-col sm:flex-row gap-4 w-full md:w-auto items-center">
+<div class="flex gap-2 overflow-x-auto pb-2 sm:pb-0 w-full sm:w-auto hide-scrollbar">
+<button class="px-4 py-2 rounded-full bg-primary-container text-on-primary font-label-md text-label-md whitespace-nowrap shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.05)]">All</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-lowest border border-outline-variant text-on-surface-variant hover:bg-surface-container-low font-label-md text-label-md whitespace-nowrap transition-colors">Meals</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-lowest border border-outline-variant text-on-surface-variant hover:bg-surface-container-low font-label-md text-label-md whitespace-nowrap transition-colors">Drinks</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-lowest border border-outline-variant text-on-surface-variant hover:bg-surface-container-low font-label-md text-label-md whitespace-nowrap transition-colors">Snacks</button>
+</div>
+<div class="relative w-full sm:w-auto">
+<select class="appearance-none w-full sm:w-48 bg-surface-container-lowest border border-outline-variant text-on-surface py-2 pl-4 pr-10 rounded-lg font-body-md focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-transparent transition-all shadow-sm">
+<option>Recommended</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+<option>Newest Arrivals</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Product Grid (Bento/Modern Style) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-md mb-xl">
+<!-- Featured Product Card (Spans 2 columns on lg screens) -->
+<div class="group col-span-1 sm:col-span-2 bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.05)] hover:shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1)] transition-all duration-300 flex flex-col sm:flex-row border border-surface-variant">
+<div class="w-full sm:w-1/2 h-48 sm:h-auto relative overflow-hidden">
+<img alt="Gourmet Pizza" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A top-down view of a freshly baked, gourmet rustic pizza on a wooden serving board. The pizza is generously topped with melted mozzarella, fresh basil, and blistered tomatoes. The lighting is warm and directional, emphasizing the texture of the crust and the appetizing sheen of the ingredients, set within a bright, modern culinary context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTAxXHwFr9pv8Ob5Jx7yaXzNzLbMXcW-1NT57WgMV6C-GUW8GvX9hsj3LMROUrYDoLVI6en2bGvbazdWEKmOhxx100rgt3liLQ3cN94qmz19JJiTPT9JeGU7jlUd8PqWJKjdWyBFN-ikDS_RBfJ6gaYupkGSPVkkXyqh9kCmjvtmaB9NY2TUSI4yjgra5kgmonrxCFauzPwUvtNqgVEaj6Rrv8k_pdAmSC373cBP6JmYiRjiVCe0JR1LFdOxitnY-PsLTQtuSdtXo"/>
+<div class="absolute top-sm left-sm bg-primary-container text-on-primary px-3 py-1 rounded-full font-label-md text-caption shadow-sm">Featured</div>
+</div>
+<div class="p-md flex flex-col justify-between flex-1 bg-surface-container-lowest">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">Rustic Margherita Pizza</h3>
+<span class="font-headline-md text-body-lg text-primary-container font-bold">$18.99</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-2">Hand-tossed crust with San Marzano tomato sauce, fresh mozzarella, and basil leaves.</p>
+<div class="flex items-center gap-2 mb-4">
+<span class="inline-flex items-center gap-1 bg-secondary-fixed text-on-secondary-fixed-variant px-2 py-1 rounded-md font-label-md text-caption">
+<span class="material-symbols-outlined text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+                                4.9 (120)
+                            </span>
+<span class="text-caption text-outline-variant">•</span>
+<span class="text-caption text-on-surface-variant font-medium text-emerald-700 bg-emerald-50 px-2 py-1 rounded-md">In Stock</span>
+</div>
+</div>
+<button class="w-full bg-primary-container hover:bg-primary text-on-primary font-label-md py-3 rounded-lg flex items-center justify-center gap-2 transition-colors duration-200">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span>
+                        Add to Cart
+                    </button>
+</div>
+</div>
+<!-- Standard Product Cards -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.05)] hover:shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1)] transition-all duration-300 flex flex-col border border-surface-variant">
+<div class="w-full h-48 relative overflow-hidden">
+<img alt="Healthy Salad" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A vibrant, healthy salad bowl filled with mixed greens, avocado, cherry tomatoes, and grilled chicken strips. Shot from a slightly angled top-down perspective on a clean white surface. Bright, diffused daylight lighting enhances the fresh colors, aligning with a clean, modern, and appetizing visual aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDI1H11lg4y_1hH3vFU8R_K3CBsrvspmksWi4IPbLDkBh8XklBZZquX55yNtbIwm1jA8WhK6iMm4XgoEN5tYjlddqip5kYgKxpMqPAadxqQMWIBwokFpCZ1MK1_RBOCPhjdFtfMC5EfIQhojXhNC2pp9CkAd-Fs0aesVsRpuXYaAbl32tMf-F9G4vpOCxs4Y9c5vffCixPVNcWQs2iZEAojbXGPUGPr98zBgeXC0HYnMp2yKshEX7DfObSAHDxvrG6J1fhxRg8Fzz8"/>
+</div>
+<div class="p-4 flex flex-col flex-1 justify-between">
+<div>
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-md text-body-lg text-on-surface font-semibold line-clamp-1">Avocado Chicken Salad</h3>
+</div>
+<div class="font-headline-md text-body-md text-primary-container font-bold mb-2">$14.50</div>
+<div class="flex items-center gap-2 mb-4">
+<span class="text-caption text-on-surface-variant font-medium text-emerald-700 bg-emerald-50 px-2 py-1 rounded-md">In Stock</span>
+</div>
+</div>
+<button class="w-full bg-transparent border-2 border-primary-container text-primary-container hover:bg-primary-container hover:text-on-primary font-label-md py-2 rounded-lg transition-colors duration-200">
+                        Add to Cart
+                    </button>
+</div>
+</div>
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.05)] hover:shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1)] transition-all duration-300 flex flex-col border border-surface-variant">
+<div class="w-full h-48 relative overflow-hidden">
+<img alt="Classic Burger" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A close-up side profile of a classic, juicy double cheeseburger with fresh lettuce, tomato, and melted cheddar cheese on a toasted brioche bun. The burger sits on a pristine white plate against a light, blurred background. High-key lighting emphasizes the textures and colors, creating an inviting, mouth-watering presentation suitable for a premium menu interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvyync4N7ty9lfSdqISpr-9QtERkJsunNCoh1D4y_a51eU6y1Uh3k3iZYQ810VlIi08D6OS8kobkyxDE-MzXWlHU0M8aBcXljNewT3kFHefKWpIme1ATsZ64a2hz5ZWWWLR1RqNoIVKyZT-wl2N1KmTBZnEj-2HS-WtsdiDa0qrMW57QV_Hsrp6lcnnylXfYnnGEInFF3ZrSrykr4lxVtRgRbD-6_3oiPl_AgAvpiDjtGbyUadD6VYD_qCXuePTZmGVvSt49Uk9No"/>
+<div class="absolute top-2 right-2 bg-error text-on-error px-2 py-1 rounded-md font-label-md text-caption shadow-sm">Popular</div>
+</div>
+<div class="p-4 flex flex-col flex-1 justify-between">
+<div>
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-md text-body-lg text-on-surface font-semibold line-clamp-1">Classic Cheeseburger</h3>
+</div>
+<div class="font-headline-md text-body-md text-primary-container font-bold mb-2">$12.99</div>
+<div class="flex items-center gap-2 mb-4">
+<span class="text-caption text-on-surface-variant font-medium text-emerald-700 bg-emerald-50 px-2 py-1 rounded-md">In Stock</span>
+</div>
+</div>
+<button class="w-full bg-transparent border-2 border-primary-container text-primary-container hover:bg-primary-container hover:text-on-primary font-label-md py-2 rounded-lg transition-colors duration-200">
+                        Add to Cart
+                    </button>
+</div>
+</div>
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.05)] hover:shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1)] transition-all duration-300 flex flex-col border border-surface-variant">
+<div class="w-full h-48 relative overflow-hidden">
+<img alt="Iced Coffee" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A tall glass of refreshing iced coffee with a swirl of cream, condensation dripping down the sides. It is placed on a light wooden table next to a subtle napkin. Bright, airy, and natural lighting creates a crisp and clean aesthetic, emphasizing the cool, appetizing nature of the beverage within a modern light-mode setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgfgP0r-pGo_UFvDmQ0NSjzlkizuNXv1yhuGMNykbgQetX2KzOptpGnpsgWSHKG9FfakSJat8Iu19nIjd9TUpQid57MUwtua-W-tbc3nycbka1qOanOpNnfXY1P8JP4TR0E_Q7ll_MPtv-ly1N4nefXevxHzxI_coQRcPrsMDRlNnwJcrnW5M_Lj1MbW5nCSD3AP39PUhWe-tt4VaMcdXlMjkoLKV5AhVNNPnrUrD9fVgJb_GPnQ5PYL80_WjBdFQM_tx31ca8ErE"/>
+</div>
+<div class="p-4 flex flex-col flex-1 justify-between">
+<div>
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-md text-body-lg text-on-surface font-semibold line-clamp-1">Caramel Iced Latte</h3>
+</div>
+<div class="font-headline-md text-body-md text-primary-container font-bold mb-2">$5.50</div>
+<div class="flex items-center gap-2 mb-4">
+<span class="text-caption text-on-surface-variant font-medium text-amber-700 bg-amber-50 px-2 py-1 rounded-md">Low Stock</span>
+</div>
+</div>
+<button class="w-full bg-transparent border-2 border-primary-container text-primary-container hover:bg-primary-container hover:text-on-primary font-label-md py-2 rounded-lg transition-colors duration-200">
+                        Add to Cart
+                    </button>
+</div>
+</div>
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.05)] hover:shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1)] transition-all duration-300 flex flex-col border border-surface-variant">
+<div class="w-full h-48 relative overflow-hidden">
+<img alt="Chocolate Dessert" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A decadent slice of dark chocolate cake topped with a glossy ganache and fresh raspberries. Placed on an elegant white dessert plate against a clean, minimalist background. The soft, diffused lighting highlights the rich textures of the cake and the vibrant red of the berries, evoking a sense of premium culinary delight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCc-Oj-GhtfTSUElbAkMhJTCI18BOdyYir_9H8V-AjZ5WzbgEcTETLELKeWEcQWKWl7xnpQydYfx56n46FHIHa747CVTeJcQ0qh4NzEsnOE9sqT5vlvJ54vyItClpXPcCdJzPVI5UhnG44voR4OFbHyBOcTpmNnrtTJn6JTDrrpj9ikEgiyDxZAXXS9i3n6ufwzqlSUzwdn7PClJ7p5CAgzT2PVvxgOJbpC2D_ZszMUiqb0N83QWZLgAG1DQD6h1g-AzkO4M5Dffs"/>
+</div>
+<div class="p-4 flex flex-col flex-1 justify-between">
+<div>
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-md text-body-lg text-on-surface font-semibold line-clamp-1">Dark Chocolate Truffle Cake</h3>
+</div>
+<div class="font-headline-md text-body-md text-primary-container font-bold mb-2">$8.00</div>
+<div class="flex items-center gap-2 mb-4">
+<span class="text-caption text-on-surface-variant font-medium text-emerald-700 bg-emerald-50 px-2 py-1 rounded-md">In Stock</span>
+</div>
+</div>
+<button class="w-full bg-transparent border-2 border-primary-container text-primary-container hover:bg-primary-container hover:text-on-primary font-label-md py-2 rounded-lg transition-colors duration-200">
+                        Add to Cart
+                    </button>
+</div>
+</div>
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.05)] hover:shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1)] transition-all duration-300 flex flex-col border border-surface-variant">
+<div class="w-full h-48 relative overflow-hidden">
+<img alt="BBQ Ribs" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A generous portion of sticky, glazed BBQ ribs served on a wooden board with a side of golden fries and coleslaw. The lighting is warm and slightly dramatic, focusing on the appealing glaze of the meat. The presentation is rustic yet clean, fitting perfectly into a high-quality, modern food ordering interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmWUHGuy8XF6Z26mNKozQLH1S_RAhptkySt_xNFNN695Thf1S6nfSB_zhTK4OTdA97C3eoHhhSQt-2zQ-gDp3uCVPVbOf72gxJ_iND66VAWVh1RUPUespEtqieIjG9vslVDngZUXtfsDH5DUzJCgaEfqDJWaXiTGVzVini4Ani_FQZTaoll-jOg_5RPVOLKv8xcQVqbouxFZRsaeRPQb9XJZLGyfUrLYjizE-q3Eof_Ux4YcMD5mN2BwwZ-5LoCn48twFKZk1qmbk"/>
+</div>
+<div class="p-4 flex flex-col flex-1 justify-between">
+<div>
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-md text-body-lg text-on-surface font-semibold line-clamp-1">Smoky BBQ Ribs</h3>
+</div>
+<div class="font-headline-md text-body-md text-primary-container font-bold mb-2">$24.50</div>
+<div class="flex items-center gap-2 mb-4">
+<span class="text-caption text-on-surface-variant font-medium text-emerald-700 bg-emerald-50 px-2 py-1 rounded-md">In Stock</span>
+</div>
+</div>
+<button class="w-full bg-transparent border-2 border-primary-container text-primary-container hover:bg-primary-container hover:text-on-primary font-label-md py-2 rounded-lg transition-colors duration-200">
+                        Add to Cart
+                    </button>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex justify-center items-center gap-2 mt-lg pb-xl">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-low transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary-container text-on-primary font-label-md shadow-sm">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-low font-label-md transition-colors">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-low font-label-md transition-colors">3</button>
+<span class="text-on-surface-variant font-body-md">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-low font-label-md transition-colors">8</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</main>
+<!-- Footer Component -->
+<footer class="w-full border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 font-inter text-xs uppercase tracking-wider py-12 px-4 md:px-8 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="font-black text-slate-400 dark:text-slate-600">
+            © 2024 FoodStore. The Professional Chef Next Door.
+        </div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="text-slate-500 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-300 transition-colors" href="#">Privacy Policy</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-300 transition-colors" href="#">Terms of Service</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-300 transition-colors" href="#">Contact</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-300 transition-colors" href="#">About Us</a>
+</div>
+</footer>
+</body></html>

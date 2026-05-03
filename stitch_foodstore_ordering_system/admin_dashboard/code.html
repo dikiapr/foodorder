@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FoodStore Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#f97316",
+                        "primary-fixed-dim": "#ffb690",
+                        "surface-dim": "#edd5cb",
+                        "surface": "#fff8f6",
+                        "tertiary": "#006398",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#ffb690",
+                        "surface-tint": "#9d4300",
+                        "surface-container-highest": "#f6ded3",
+                        "surface-container-high": "#fce3d9",
+                        "surface-bright": "#fff8f6",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#582200",
+                        "inverse-surface": "#3c2d26",
+                        "outline": "#8c7164",
+                        "secondary-container": "#2170e4",
+                        "background": "#fff8f6",
+                        "tertiary-container": "#00a2f4",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-surface": "#251913",
+                        "inverse-on-surface": "#ffede6",
+                        "on-secondary-fixed-variant": "#004395",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#ffdbca",
+                        "on-tertiary-fixed": "#001d32",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#341100",
+                        "primary": "#9d4300",
+                        "on-secondary-container": "#fefcff",
+                        "on-surface-variant": "#584237",
+                        "on-tertiary-fixed-variant": "#004b74",
+                        "surface-container-low": "#fff1eb",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#f6ded3",
+                        "outline-variant": "#e0c0b1",
+                        "on-tertiary-container": "#003554",
+                        "on-secondary-fixed": "#001a42",
+                        "tertiary-fixed-dim": "#93ccff",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#ffeae0",
+                        "secondary": "#0058be",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#cde5ff",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-primary-fixed-variant": "#783200",
+                        "on-background": "#251913"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "lg": "48px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "md": "24px",
+                        "sm": "12px",
+                        "xl": "80px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-xl": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "caption": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "display-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md flex min-h-screen">
+<!-- SideNavBar Component -->
+<nav class="bg-white dark:bg-slate-900 font-inter text-sm h-screen w-64 border-r border-slate-100 dark:border-slate-800 flex flex-col fixed left-0 top-0 py-6 z-40">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary font-bold text-lg">
+                F
+            </div>
+<div>
+<h1 class="font-bold text-lg text-slate-900 dark:text-white">Admin Panel</h1>
+<p class="text-xs text-slate-500">FoodStore Management</p>
+</div>
+</div>
+<ul class="flex flex-col w-full">
+<li class="w-full">
+<a class="flex items-center gap-3 px-6 py-3 bg-orange-50 dark:bg-orange-950/30 text-orange-600 dark:text-orange-400 font-semibold border-r-4 border-orange-600 cursor-pointer active:bg-slate-100 dark:active:bg-slate-800" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li class="w-full">
+<a class="flex items-center gap-3 px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200 cursor-pointer active:bg-slate-100 dark:active:bg-slate-800" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                    Products
+                </a>
+</li>
+<li class="w-full">
+<a class="flex items-center gap-3 px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200 cursor-pointer active:bg-slate-100 dark:active:bg-slate-800" href="#">
+<span class="material-symbols-outlined">category</span>
+                    Categories
+                </a>
+</li>
+<li class="w-full">
+<a class="flex items-center gap-3 px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200 cursor-pointer active:bg-slate-100 dark:active:bg-slate-800" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+                    Orders
+                </a>
+</li>
+</ul>
+<div class="mt-auto px-6">
+<button class="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-error hover:bg-error-container transition-colors">
+<span class="material-symbols-outlined">logout</span>
+                 Logout
+            </button>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="ml-64 flex-1 p-8 md:p-12 max-w-container-max mx-auto w-full">
+<!-- Header -->
+<header class="flex justify-between items-center mb-10">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Dashboard Overview</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Welcome back, Admin. Here's what's happening today.</p>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden">
+<img alt="Admin profile" class="w-full h-full object-cover" data-alt="A professional headshot of a mature male executive wearing a casual but smart dark blue button-down shirt. The lighting is bright and even, highlighting his friendly smile. The background is slightly blurred out, suggesting a modern corporate office setting. The overall mood is approachable yet authoritative, fitting for an administrative user avatar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPQXAbDwZ6cpCl-qaehoK9Q6V77JaUKVyguyqYFSItwR0R4BG91ZMAPfjpvu4KVF6H-_isDsX0OTpd-1Eddep5-SpOL-jwULO9MkQsUwshc_dGFdpJEcqHireAulG0KTqSI0VYctXlsuIfujdBzX2d0bXQFAsSvAyQ-d2CX1gQZHJz3KekFUeaVe5ejiysr7dMoIQZcI4Ig38zERIn74hvCSY8j52QFrua9tgWglybBdII9jpaY6bxm8ThERAQR57mrvOuOue8c-8"/>
+</div>
+</div>
+</header>
+<!-- Stats Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+<!-- Total Products -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.05)] hover:shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1)] transition-shadow duration-300 border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wide">Total Products</p>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mt-2">1,248</h3>
+</div>
+<div class="w-12 h-12 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl" data-weight="fill" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span class="font-label-md text-label-md">+12% from last month</span>
+</div>
+</div>
+<!-- Total Categories -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.05)] hover:shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1)] transition-shadow duration-300 border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wide">Total Categories</p>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mt-2">32</h3>
+</div>
+<div class="w-12 h-12 rounded-lg bg-secondary-fixed flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-2xl" data-weight="fill" style="font-variation-settings: 'FILL' 1;">category</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="font-label-md text-label-md">Unchanged</span>
+</div>
+</div>
+<!-- Total Orders -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.05)] hover:shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1)] transition-shadow duration-300 border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wide">Total Orders</p>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mt-2">8,592</h3>
+</div>
+<div class="w-12 h-12 rounded-lg bg-tertiary-fixed flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-2xl" data-weight="fill" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span class="font-label-md text-label-md">+5.4% from last month</span>
+</div>
+</div>
+<!-- Total Revenue -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.05)] hover:shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1)] transition-shadow duration-300 border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wide">Total Revenue</p>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mt-2">$45.2k</h3>
+</div>
+<div class="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-2xl" data-weight="fill" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span class="font-label-md text-label-md">+8.1% from last month</span>
+</div>
+</div>
+</section>
+<!-- Recent Orders Section -->
+<section class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.05)] border border-outline-variant/30 overflow-hidden">
+<div class="p-6 border-b border-outline-variant/30 flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Recent Orders</h3>
+<button class="font-label-md text-label-md text-primary-container hover:text-primary transition-colors flex items-center gap-1">
+                    View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant/30 font-label-md text-label-md text-on-surface-variant uppercase">
+<th class="p-4 pl-6 font-semibold">Order ID</th>
+<th class="p-4 font-semibold">Customer</th>
+<th class="p-4 font-semibold">Date</th>
+<th class="p-4 font-semibold">Status</th>
+<th class="p-4 pr-6 font-semibold text-right">Amount</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface">
+<tr class="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
+<td class="p-4 pl-6 font-semibold text-primary-container">#ORD-001</td>
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed text-secondary flex items-center justify-center font-bold text-xs">
+                                        JD
+                                    </div>
+<span>John Doe</span>
+</div>
+</td>
+<td class="p-4 text-on-surface-variant">Oct 24, 2023</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary-fixed text-on-secondary-fixed-variant">
+                                    Completed
+                                </span>
+</td>
+<td class="p-4 pr-6 text-right font-semibold">$124.50</td>
+</tr>
+<tr class="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
+<td class="p-4 pl-6 font-semibold text-primary-container">#ORD-002</td>
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed text-tertiary flex items-center justify-center font-bold text-xs">
+                                        AS
+                                    </div>
+<span>Alice Smith</span>
+</div>
+</td>
+<td class="p-4 text-on-surface-variant">Oct 24, 2023</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-fixed text-on-primary-fixed-variant">
+                                    Processing
+                                </span>
+</td>
+<td class="p-4 pr-6 text-right font-semibold">$89.00</td>
+</tr>
+<tr class="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
+<td class="p-4 pl-6 font-semibold text-primary-container">#ORD-003</td>
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-error-container text-error flex items-center justify-center font-bold text-xs">
+                                        BJ
+                                    </div>
+<span>Bob Johnson</span>
+</div>
+</td>
+<td class="p-4 text-on-surface-variant">Oct 23, 2023</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-error-container text-on-error-container">
+                                    Cancelled
+                                </span>
+</td>
+<td class="p-4 pr-6 text-right font-semibold">$45.20</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-4 pl-6 font-semibold text-primary-container">#ORD-004</td>
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed text-secondary flex items-center justify-center font-bold text-xs">
+                                        EW
+                                    </div>
+<span>Emma Wilson</span>
+</div>
+</td>
+<td class="p-4 text-on-surface-variant">Oct 23, 2023</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary-fixed text-on-secondary-fixed-variant">
+                                    Completed
+                                </span>
+</td>
+<td class="p-4 pr-6 text-right font-semibold">$210.75</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+</body></html>

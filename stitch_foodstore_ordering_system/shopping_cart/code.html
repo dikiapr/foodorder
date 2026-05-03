@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shopping Cart - FoodStore</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-container": "#f97316",
+                    "primary-fixed-dim": "#ffb690",
+                    "surface-dim": "#edd5cb",
+                    "surface": "#fff8f6",
+                    "tertiary": "#006398",
+                    "error": "#ba1a1a",
+                    "inverse-primary": "#ffb690",
+                    "surface-tint": "#9d4300",
+                    "surface-container-highest": "#f6ded3",
+                    "surface-container-high": "#fce3d9",
+                    "surface-bright": "#fff8f6",
+                    "on-primary": "#ffffff",
+                    "on-primary-container": "#582200",
+                    "inverse-surface": "#3c2d26",
+                    "outline": "#8c7164",
+                    "secondary-container": "#2170e4",
+                    "background": "#fff8f6",
+                    "tertiary-container": "#00a2f4",
+                    "secondary-fixed": "#d8e2ff",
+                    "on-surface": "#251913",
+                    "inverse-on-surface": "#ffede6",
+                    "on-secondary-fixed-variant": "#004395",
+                    "error-container": "#ffdad6",
+                    "primary-fixed": "#ffdbca",
+                    "on-tertiary-fixed": "#001d32",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed": "#341100",
+                    "primary": "#9d4300",
+                    "on-secondary-container": "#fefcff",
+                    "on-surface-variant": "#584237",
+                    "on-tertiary-fixed-variant": "#004b74",
+                    "surface-container-low": "#fff1eb",
+                    "on-error": "#ffffff",
+                    "surface-variant": "#f6ded3",
+                    "outline-variant": "#e0c0b1",
+                    "on-tertiary-container": "#003554",
+                    "on-secondary-fixed": "#001a42",
+                    "tertiary-fixed-dim": "#93ccff",
+                    "on-secondary": "#ffffff",
+                    "surface-container": "#ffeae0",
+                    "secondary": "#0058be",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed": "#cde5ff",
+                    "secondary-fixed-dim": "#adc6ff",
+                    "on-primary-fixed-variant": "#783200",
+                    "on-background": "#251913"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "lg": "48px",
+                    "gutter": "24px",
+                    "base": "8px",
+                    "md": "24px",
+                    "sm": "12px",
+                    "xl": "80px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "display-xl": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "headline-lg": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Inter"
+                    ],
+                    "caption": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-xl": [
+                            "48px",
+                            {
+                                    "lineHeight": "56px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "40px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "caption": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 border-b border-slate-100 bg-white/90 backdrop-blur-md shadow-sm font-inter antialiased text-orange-500">
+<div class="flex justify-between items-center h-16 px-4 md:px-8 max-w-7xl mx-auto">
+<!-- Brand -->
+<a class="text-2xl font-black tracking-tight text-orange-600" href="#">
+                FoodStore
+            </a>
+<!-- Navigation Links (Hidden on small screens) -->
+<div class="hidden md:flex space-x-8">
+<a class="text-slate-600 font-medium hover:text-orange-500 transition-colors duration-200" href="#">Menu</a>
+<a class="text-slate-600 font-medium hover:text-orange-500 transition-colors duration-200" href="#">Offers</a>
+<a class="text-slate-600 font-medium hover:text-orange-500 transition-colors duration-200" href="#">My Orders</a>
+</div>
+<!-- Actions -->
+<div class="flex items-center space-x-6">
+<button class="relative hover:text-orange-500 transition-colors duration-200 active:scale-95 transition-transform duration-150 text-orange-600 font-bold border-b-2 border-orange-600 pb-[22px] pt-[24px]">
+<span class="material-symbols-outlined" data-icon="shopping_cart" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+</button>
+<button class="hover:text-orange-500 transition-colors duration-200 active:scale-95 transition-transform duration-150 text-slate-600">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="w-8 h-8 rounded-full overflow-hidden border border-slate-200">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOn1rXqEiw32xPTHOtzxfZfajS8wmuEoVqRezG4ViQZZVzuZjq2qNKuKcEGqglv0HCHOO0ncyo_WBRnei1-PrmxgpWoum8V-rGRVO5uyAcMH0skotJYHQqz4bBimHieM8Ni7NHSxyDtPSyjv7Tj17AfnIkNTU3cJSjSUsW-aZZvuT_qjbf2BaAgV5sqfWsifiVg7QHsvrbAqOZLErFeGeUt9LgR4LasqcHVPC7d1LU-Zw958Txdb26JBQbW_6MawsW6htsp9psads"/>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-24 pb-16 px-4 md:px-8 max-w-[1280px] mx-auto w-full">
+<!-- Header -->
+<div class="mb-lg flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-base">Your Cart</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Review your items and proceed to checkout.</p>
+</div>
+<a class="inline-flex items-center gap-2 text-primary font-label-md text-label-md hover:text-primary-container transition-colors" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="arrow_back">arrow_back</span>
+                Continue Shopping
+            </a>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+<!-- Cart Items Section -->
+<div class="lg:col-span-8 space-y-md">
+<!-- Cart Item 1 -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1)] transition-shadow duration-300 p-gutter flex flex-col sm:flex-row items-start sm:items-center gap-gutter border border-outline-variant/30">
+<!-- Thumbnail -->
+<div class="w-24 h-24 sm:w-32 sm:h-32 rounded-lg overflow-hidden shrink-0 bg-surface-variant relative">
+<img alt="Delicious pizza" class="w-full h-full object-cover" data-alt="A close-up, high-quality photograph of a freshly baked margherita pizza on a wooden board. The pizza has a perfectly blistered crust, melted fresh mozzarella cheese, and bright red tomato sauce, garnished with vibrant green basil leaves. The lighting is warm and natural, emphasizing the appetizing textures and creating a mouth-watering 'Professional Chef Next Door' aesthetic with a bright, minimalist background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9xFrduK5VFFid-uQVuVyyXcr8u5WgJ20ugu5akNHy9DymXJVTd4fo6j5ZpGvGf3gKIhACI50RruE4211B6C2uM4p30bfFAOhc4G5CFbTbNxCPlhOhzkSpc-mElLyN2aJTVEaLehem1OYKMZIiPFdm1bHW0SKgBWJpco-81ldLNapz-ZUBnQYKkSVCgUe04s4TjwNS1Z6V7mmrnBTRyWy7li6CamIK_JnHUcZUYvbXukCz7akd6XWPA9IQ_zWmDznSLtq3JH8r_cM"/>
+</div>
+<!-- Details -->
+<div class="flex-grow flex flex-col h-full justify-between w-full">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">Margherita Pizza</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Wood-fired, fresh basil</p>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface">$18.00</span>
+</div>
+<div class="flex items-center justify-between mt-auto pt-4">
+<!-- Stepper -->
+<div class="flex items-center bg-surface-container-low rounded-full border border-outline-variant/50 p-1">
+<button aria-label="Decrease quantity" class="w-8 h-8 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<span class="font-label-md text-label-md text-on-surface w-8 text-center">2</span>
+<button aria-label="Increase quantity" class="w-8 h-8 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+<!-- Subtotal & Remove -->
+<div class="flex items-center gap-md">
+<span class="font-label-md text-label-md text-on-surface-variant hidden sm:inline">Subtotal: $36.00</span>
+<button aria-label="Remove item" class="text-error hover:text-error-container transition-colors flex items-center gap-1 font-label-md text-label-md">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Cart Item 2 -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1)] transition-shadow duration-300 p-gutter flex flex-col sm:flex-row items-start sm:items-center gap-gutter border border-outline-variant/30">
+<div class="w-24 h-24 sm:w-32 sm:h-32 rounded-lg overflow-hidden shrink-0 bg-surface-variant relative">
+<img alt="Healthy salad" class="w-full h-full object-cover" data-alt="A top-down view of a vibrant, healthy superfood salad in a pristine white ceramic bowl. The salad features crisp green kale, bright orange roasted butternut squash cubes, deep red pomegranate seeds, and toasted quinoa. The lighting is bright and clean, casting soft shadows on a light gray background, highlighting the freshness and high-quality ingredients fitting a premium culinary brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmxDsXTrZJWqn8hdqOLNAjIr9EGMQACCZBHn8hP7Mut9C3Z5t8EKQR9f3GoBZfiF_EaoKhlmpxc7ZL_wE4qkvV7JiZyWASFPxY7ipX9tkqYqYaCIdS-WBYltj0WBle8-hzD-P3Yp0ttjrfQT5RANZSbZ4o2TfzaX98Te6xtqw1z_J6sF54hB2Y_UEPCqZV32BcBgSNeHdCYsps2U5VSIJvG6tAmkb2pVfApDoddck8Ce4MctdgO3i8LoY4Ye2-cQONW3LN3mvy4EE"/>
+</div>
+<div class="flex-grow flex flex-col h-full justify-between w-full">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">Superfood Salad</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Quinoa, kale, pomegranate</p>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface">$14.50</span>
+</div>
+<div class="flex items-center justify-between mt-auto pt-4">
+<div class="flex items-center bg-surface-container-low rounded-full border border-outline-variant/50 p-1">
+<button aria-label="Decrease quantity" class="w-8 h-8 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<span class="font-label-md text-label-md text-on-surface w-8 text-center">1</span>
+<button aria-label="Increase quantity" class="w-8 h-8 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+<div class="flex items-center gap-md">
+<span class="font-label-md text-label-md text-on-surface-variant hidden sm:inline">Subtotal: $14.50</span>
+<button aria-label="Remove item" class="text-error hover:text-error-container transition-colors flex items-center gap-1 font-label-md text-label-md">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Order Summary Sidebar -->
+<div class="lg:col-span-4">
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 p-gutter sticky top-[100px]">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-md">Order Summary</h2>
+<div class="space-y-sm mb-lg">
+<div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+<span>Subtotal</span>
+<span class="text-on-surface">$50.50</span>
+</div>
+<div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+<span>Taxes &amp; Fees</span>
+<span class="text-on-surface">$4.25</span>
+</div>
+<div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+<span>Delivery</span>
+<span class="text-on-surface">$2.99</span>
+</div>
+</div>
+<div class="border-t border-outline-variant/30 pt-md mb-lg">
+<div class="flex justify-between items-center">
+<span class="font-headline-md text-headline-md text-on-surface">Total</span>
+<span class="font-headline-lg text-headline-lg text-primary-container">$57.74</span>
+</div>
+</div>
+<button class="w-full bg-primary-container text-on-primary font-label-md text-label-md py-4 rounded-lg shadow-sm hover:shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1)] hover:bg-surface-tint transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                        Proceed to Checkout
+                        <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<p class="font-caption text-caption text-on-surface-variant text-center mt-sm">
+                        Secure checkout powered by FoodStore.
+                    </p>
+</div>
+</div>
+</div>
+</main>
+</body></html>
