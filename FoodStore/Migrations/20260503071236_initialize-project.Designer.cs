@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodStore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260502094712_Initialize-project")]
-    partial class Initializeproject
+    [Migration("20260503071236_initialize-project")]
+    partial class initializeproject
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,18 +62,6 @@ namespace FoodStore.Migrations
                         .IsUnique();
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Food"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Drink"
-                        });
                 });
 
             modelBuilder.Entity("FoodStore.Models.Order", b =>
@@ -180,6 +168,11 @@ namespace FoodStore.Migrations
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(20)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Username")

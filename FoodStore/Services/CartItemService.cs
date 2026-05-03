@@ -23,21 +23,15 @@ public class CartItemService : ICartItemService
         return responses;
     }
 
-    public async Task<CartItemResponse> AddOrUpdateAsync(AddCartItemRequest request)
+    public async Task<CartItemResponse> AddOrUpdateAsync(int userId, AddCartItemRequest request)
     {
-        bool userExists = await _cartItemRepository.UserExistsAsync(request.UserId);
-        if (!userExists)
-        {
-            throw new InvalidOperationException("User not found.");
-        }
-
         Product? product = await _productRepository.GetByIdAsync(request.ProductId);
         if (product == null)
         {
             throw new InvalidOperationException("Product not found.");
         }
 
-        CartItem? existing = await _cartItemRepository.GetByUserAndProductAsync(request.UserId, request.ProductId);
+        CartItem? existing = await _cartItemRepository.GetByUserAndProductAsync(userId, request.ProductId);
 
         int totalQuantity = (existing?.Quantity ?? 0) + request.Quantity;
         if (totalQuantity > product.Stock)
@@ -55,7 +49,7 @@ public class CartItemService : ICartItemService
 
         CartItem cartItem = new CartItem()
         {
-            UserId = request.UserId,
+            UserId = userId,
             ProductId = request.ProductId,
             Quantity = request.Quantity
         };

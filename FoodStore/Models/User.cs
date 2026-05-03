@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using FoodStore.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodStore.Models;
@@ -19,6 +20,8 @@ public class User
 
     [Required]
     public string PasswordHash { get; set; } = string.Empty;
+
+    public UserRole Role { get; set; } = UserRole.Customer;
 
     public ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
     public ICollection<Order> Orders { get; set; } = new List<Order>();

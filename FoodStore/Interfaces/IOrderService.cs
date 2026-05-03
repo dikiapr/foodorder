@@ -6,8 +6,8 @@ namespace FoodStore.Interfaces;
 
 public interface IOrderService
 {
-    Task<PagedResponse<OrderResponse>> GetByUserIdAsync(int userId, OrderQueryParameters parameters);
+    Task<PagedResponse<OrderResponse>> GetAllAsync(int? userId, OrderQueryParameters parameters);
     Task<OrderResponse?> GetByIdAsync(int id);
-    Task<OrderResponse> CheckoutAsync(CheckoutRequest request);
+    Task<OrderResponse> CheckoutAsync(int userId);
     Task<OrderResponse?> UpdateStatusAsync(int id, UpdateOrderStatusRequest request);
 }

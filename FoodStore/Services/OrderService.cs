@@ -17,9 +17,9 @@ public class OrderService : IOrderService
         _cartItemRepository = cartItemRepository;
     }
 
-    public async Task<PagedResponse<OrderResponse>> GetByUserIdAsync(int userId, OrderQueryParameters parameters)
+    public async Task<PagedResponse<OrderResponse>> GetAllAsync(int? userId, OrderQueryParameters parameters)
     {
-        (IEnumerable<Order> Items, int TotalCount) paginatedOrders = await _orderRepository.GetByUserIdAsync(userId, parameters);
+        (IEnumerable<Order> Items, int TotalCount) paginatedOrders = await _orderRepository.GetAllAsync(userId, parameters);
 
         IEnumerable<OrderResponse> data = paginatedOrders.Items.Select(ToResponse);
         int totalPages = (int)Math.Ceiling(paginatedOrders.TotalCount / (double)parameters.PageSize);
@@ -43,9 +43,9 @@ public class OrderService : IOrderService
         return response;
     }
 
-    public async Task<OrderResponse> CheckoutAsync(CheckoutRequest request)
+    public async Task<OrderResponse> CheckoutAsync(int userId)
     {
-        IEnumerable<CartItem> cartItems = await _cartItemRepository.GetByUserIdAsync(request.UserId);
+        IEnumerable<CartItem> cartItems = await _cartItemRepository.GetByUserIdAsync(userId);
 
         if (!cartItems.Any())
         {
@@ -60,7 +60,7 @@ public class OrderService : IOrderService
             }
         }
 
-        Order order = await _orderRepository.CheckoutAsync(request.UserId, cartItems);
+        Order order = await _orderRepository.CheckoutAsync(userId, cartItems);
         OrderResponse response = ToResponse(order);
         return response;
     }

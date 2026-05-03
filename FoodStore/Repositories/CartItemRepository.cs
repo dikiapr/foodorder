@@ -38,18 +38,6 @@ public class CartItemRepository : ICartItemRepository
         return cartItem;
     }
 
-    public async Task<bool> UserExistsAsync(int userId)
-    {
-        bool exists = await _context.Users.AnyAsync(user => user.Id == userId);
-        return exists;
-    }
-
-    public async Task<bool> ProductExistsAsync(int productId)
-    {
-        bool exists = await _context.Products.AnyAsync(product => product.Id == productId);
-        return exists;
-    }
-
     public async Task AddAsync(CartItem cartItem)
     {
         _context.CartItems.Add(cartItem);

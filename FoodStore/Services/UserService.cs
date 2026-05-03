@@ -8,10 +8,12 @@ namespace FoodStore.Services;
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
+    private readonly IJwtService _jwtService;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(IUserRepository userRepository, IJwtService jwtService)
     {
         _userRepository = userRepository;
+        _jwtService = jwtService;
     }
 
     public async Task<UserResponse> RegisterAsync(RegisterRequest request)
@@ -36,11 +38,11 @@ public class UserService : IUserService
         };
 
         await _userRepository.AddAsync(user);
-        UserResponse response = ToResponse(user);
+        UserResponse response = ToUserResponse(user);
         return response;
     }
 
-    public async Task<UserResponse> LoginAsync(LoginRequest request)
+    public async Task<LoginResponse> LoginAsync(LoginRequest request)
     {
         User? user = await _userRepository.GetByUsernameOrEmailAsync(request.UsernameOrEmail);
 
@@ -49,17 +51,30 @@ public class UserService : IUserService
             throw new UnauthorizedAccessException("Invalid credentials.");
         }
 
-        UserResponse response = ToResponse(user);
+        string token = _jwtService.GenerateToken(user);
+        LoginResponse response = ToLoginResponse(user, token);
         return response;
     }
 
-    private static UserResponse ToResponse(User user)
+    private static UserResponse ToUserResponse(User user)
     {
-        return new UserResponse
+        return new UserResponse()
         {
             Id = user.Id,
             Username = user.Username,
             Email = user.Email
+        };
+    }
+
+    private static LoginResponse ToLoginResponse(User user, string token)
+    {
+        return new LoginResponse()
+        {
+            Id = user.Id,
+            Username = user.Username,
+            Email = user.Email,
+            Role = user.Role.ToString(),
+            Token = token
         };
     }
 }

@@ -2,6 +2,7 @@ using FoodStore.Common;
 using FoodStore.DTOs.Request;
 using FoodStore.DTOs.Response;
 using FoodStore.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodStore.Controllers;
@@ -38,6 +39,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ProductResponse>> Create([FromBody] CreateProductRequest request)
     {
         try
@@ -52,6 +54,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ProductResponse>> Update([FromRoute] int id, [FromBody] UpdateProductRequest request)
     {
         try
@@ -72,6 +75,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
         try

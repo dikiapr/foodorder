@@ -31,11 +31,11 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<UserResponse>> Login([FromBody] LoginRequest request)
+    public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
     {
         try
         {
-            UserResponse user = await _userService.LoginAsync(request);
+            LoginResponse user = await _userService.LoginAsync(request);
             return Ok(user);
         }
         catch (UnauthorizedAccessException ex)

@@ -34,6 +34,11 @@ public class AppDbContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.Property(user => user.Role).HasConversion<string>().HasMaxLength(20);
+        });
+
         modelBuilder.Entity<Order>(entity =>
         {
             entity.Property(order => order.Status).HasConversion<string>().HasMaxLength(20);

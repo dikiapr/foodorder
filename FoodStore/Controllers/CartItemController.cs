@@ -1,12 +1,15 @@
+using System.Security.Claims;
 using FoodStore.DTOs.Request;
 using FoodStore.DTOs.Response;
 using FoodStore.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodStore.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class CartItemController : ControllerBase
 {
     private readonly ICartItemService _cartItemService;
@@ -17,8 +20,9 @@ public class CartItemController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CartItemResponse>>> GetCart([FromQuery] int userId)
+    public async Task<ActionResult<IEnumerable<CartItemResponse>>> GetCart()
     {
+        int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         IEnumerable<CartItemResponse> items = await _cartItemService.GetCartAsync(userId);
         return Ok(items);
     }
@@ -28,7 +32,8 @@ public class CartItemController : ControllerBase
     {
         try
         {
-            CartItemResponse item = await _cartItemService.AddOrUpdateAsync(request);
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            CartItemResponse item = await _cartItemService.AddOrUpdateAsync(userId, request);
             return Ok(item);
         }
         catch (InvalidOperationException ex)
@@ -71,8 +76,9 @@ public class CartItemController : ControllerBase
     }
 
     [HttpDelete("clear")]
-    public async Task<IActionResult> ClearCart([FromQuery] int userId)
+    public async Task<IActionResult> ClearCart()
     {
+        int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         await _cartItemService.ClearCartAsync(userId);
         return NoContent();
     }

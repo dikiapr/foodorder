@@ -16,13 +16,17 @@ public class OrderRepository : IOrderRepository
         _context = context;
     }
 
-    public async Task<(IEnumerable<Order> Items, int TotalCount)> GetByUserIdAsync(int userId, OrderQueryParameters parameters)
+    public async Task<(IEnumerable<Order> Items, int TotalCount)> GetAllAsync(int? userId, OrderQueryParameters parameters)
     {
         IQueryable<Order> query = _context.Orders
             .Include(order => order.OrderItems)
                 .ThenInclude(orderItem => orderItem.Product)
-            .Where(order => order.UserId == userId)
             .AsQueryable();
+
+        if (userId.HasValue)
+        {
+            query = query.Where(order => order.UserId == userId.Value);
+        }
 
         if (parameters.Status.HasValue)
         {

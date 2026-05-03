@@ -6,5 +6,5 @@ namespace FoodStore.Interfaces;
 public interface IUserService
 {
     Task<UserResponse> RegisterAsync(RegisterRequest request);
-    Task<UserResponse> LoginAsync(LoginRequest request);
+    Task<LoginResponse> LoginAsync(LoginRequest request);
 }

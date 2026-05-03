@@ -1,13 +1,16 @@
+using System.Security.Claims;
 using FoodStore.Common;
 using FoodStore.DTOs.Request;
 using FoodStore.DTOs.Response;
 using FoodStore.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodStore.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class OrderController : ControllerBase
 {
     private readonly IOrderService _orderService;
@@ -18,9 +21,14 @@ public class OrderController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<PagedResponse<OrderResponse>>> GetByUserId([FromQuery] int userId, [FromQuery] OrderQueryParameters parameters)
+    public async Task<ActionResult<PagedResponse<OrderResponse>>> GetAll([FromQuery] OrderQueryParameters parameters, [FromQuery] int? userId = null)
     {
-        PagedResponse<OrderResponse> orders = await _orderService.GetByUserIdAsync(userId, parameters);
+        bool isAdmin = User.IsInRole("Admin");
+        int claimsUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+        int? filterUserId = isAdmin ? userId : claimsUserId;
+
+        PagedResponse<OrderResponse> orders = await _orderService.GetAllAsync(filterUserId, parameters);
         return Ok(orders);
     }
 
@@ -38,11 +46,12 @@ public class OrderController : ControllerBase
     }
 
     [HttpPost("checkout")]
-    public async Task<ActionResult<OrderResponse>> Checkout([FromBody] CheckoutRequest request)
+    public async Task<ActionResult<OrderResponse>> Checkout()
     {
         try
         {
-            OrderResponse order = await _orderService.CheckoutAsync(request);
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            OrderResponse order = await _orderService.CheckoutAsync(userId);
             return CreatedAtAction(nameof(GetById), new { id = order.Id }, order);
         }
         catch (InvalidOperationException ex)
@@ -52,6 +61,7 @@ public class OrderController : ControllerBase
     }
 
     [HttpPut("{id}/status")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<OrderResponse>> UpdateStatus([FromRoute] int id, [FromBody] UpdateOrderStatusRequest request)
     {
         OrderResponse? order = await _orderService.UpdateStatusAsync(id, request);
