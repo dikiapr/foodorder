@@ -76,29 +76,7 @@ using (IServiceScope scope = app.Services.CreateScope())
     AppDbContext context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     context.Database.Migrate();
 
-    RoleManager<IdentityRole> roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    UserManager<ApplicationUser> userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-
-    string[] roles = ["Admin", "Customer"];
-    foreach (string role in roles)
-    {
-        if (!await roleManager.RoleExistsAsync(role))
-        {
-            await roleManager.CreateAsync(new IdentityRole(role));
-        }
-    }
-
-    ApplicationUser? existingAdmin = await userManager.FindByEmailAsync("admin@demo.com");
-    if (existingAdmin == null)
-    {
-        ApplicationUser admin = new ApplicationUser
-        {
-            UserName = "admin",
-            Email = "admin@demo.com"
-        };
-        await userManager.CreateAsync(admin, "Admin123!");
-        await userManager.AddToRoleAsync(admin, "Admin");
-    }
+    await SeedData.Initialize(scope.ServiceProvider);
 }
 
 if (app.Environment.IsDevelopment())

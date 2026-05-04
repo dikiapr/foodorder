@@ -20,7 +20,10 @@ public class AuthController : ControllerBase
     public async Task<ActionResult<UserResponse>> Register([FromBody] RegisterRequest request)
     {
         (bool success, IEnumerable<string> errors, UserResponse? user) = await _authService.RegisterAsync(request);
-        if (!success) return BadRequest(errors);
+        if (!success)
+        {
+            return BadRequest(errors);            
+        }
         return Ok(user);
     }
 
@@ -28,7 +31,10 @@ public class AuthController : ControllerBase
     public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
     {
         LoginResponse? response = await _authService.LoginAsync(request);
-        if (response == null) return Unauthorized("Invalid credentials.");
+        if (response == null)
+        {
+            return Unauthorized("Invalid credentials.");            
+        }
         return Ok(response);
     }
 }

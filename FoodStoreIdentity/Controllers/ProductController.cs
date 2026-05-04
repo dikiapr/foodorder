@@ -28,7 +28,10 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<ProductResponse>> GetById([FromRoute] int id)
     {
         ProductResponse? product = await _productService.GetByIdAsync(id);
-        if (product == null) return NotFound();
+        if (product == null)
+        {
+            return NotFound();            
+        }
         return Ok(product);
     }
 
@@ -45,7 +48,10 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<ProductResponse>> Update([FromRoute] int id, [FromBody] UpdateProductRequest request)
     {
         ProductResponse? product = await _productService.UpdateAsync(id, request);
-        if (product == null) return NotFound();
+        if (product == null)
+        {
+            return NotFound();
+        }
         return Ok(product);
     }
 
@@ -54,7 +60,10 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
         bool deleted = await _productService.DeleteAsync(id);
-        if (!deleted) return NotFound();
+        if (!deleted)
+        {
+            return NotFound();
+        }
         return NoContent();
     }
 }

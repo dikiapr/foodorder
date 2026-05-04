@@ -50,10 +50,16 @@ public class AuthService : IAuthService
     public async Task<LoginResponse?> LoginAsync(LoginRequest request)
     {
         ApplicationUser? user = await _userManager.FindByEmailAsync(request.Email);
-        if (user == null) return null;
+        if (user == null)
+        {
+            return null;    
+        }
 
         SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: false);
-        if (!result.Succeeded) return null;
+        if (!result.Succeeded)
+        {
+            return null;
+        }
 
         IList<string> roles = await _userManager.GetRolesAsync(user);
         string token = _jwtService.GenerateToken(user, roles);

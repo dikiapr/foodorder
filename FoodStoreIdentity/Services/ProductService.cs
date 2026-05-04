@@ -30,7 +30,7 @@ public class ProductService : IProductService
 
     public async Task<ProductResponse> CreateAsync(CreateProductRequest request)
     {
-        Product product = new Product
+        Product product = new Product()
         {
             Name = request.Name,
             Description = request.Description,
@@ -46,7 +46,10 @@ public class ProductService : IProductService
     public async Task<ProductResponse?> UpdateAsync(int id, UpdateProductRequest request)
     {
         Product? product = await _context.Products.FindAsync(id);
-        if (product == null) return null;
+        if (product == null)
+        {
+            return null;
+        }
 
         product.Name = request.Name;
         product.Description = request.Description;
@@ -60,7 +63,10 @@ public class ProductService : IProductService
     public async Task<bool> DeleteAsync(int id)
     {
         Product? product = await _context.Products.FindAsync(id);
-        if (product == null) return false;
+        if (product == null)
+        {
+            return false;
+        }
 
         _context.Products.Remove(product);
         await _context.SaveChangesAsync();
