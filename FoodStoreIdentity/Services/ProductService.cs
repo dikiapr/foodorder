@@ -1,4 +1,5 @@
 using AutoMapper;
+using FoodStoreIdentity.DTOs;
 using FoodStoreIdentity.DTOs.Request;
 using FoodStoreIdentity.DTOs.Response;
 using FoodStoreIdentity.Interfaces;
@@ -17,59 +18,70 @@ public class ProductService : IProductService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<ProductResponse>> GetAllAsync()
+    public async Task<ApiResponseDto<IEnumerable<ProductResponse>>> GetAllAsync()
     {
         IEnumerable<Product> products = await _productRepository.GetAllAsync();
-        return _mapper.Map<IEnumerable<ProductResponse>>(products);
+        IEnumerable<ProductResponse> data = _mapper.Map<IEnumerable<ProductResponse>>(products);
+        return ApiResponseDto<IEnumerable<ProductResponse>>.SuccessResult(data, "Products retrieved successfully.");
     }
 
-    public async Task<ProductResponse?> GetByIdAsync(int id)
+    public async Task<ApiResponseDto<ProductResponse>> GetByIdAsync(int id)
     {
         Product? product = await _productRepository.GetByIdAsync(id);
-        return product == null ? null : _mapper.Map<ProductResponse>(product);
+        if (product == null)
+        {
+            return ApiResponseDto<ProductResponse>.ErrorResult("Product not found.");
+        }
+
+        ProductResponse data = _mapper.Map<ProductResponse>(product);
+        return ApiResponseDto<ProductResponse>.SuccessResult(data, "Product retrieved successfully.");
     }
 
-    public async Task<ProductResponse> CreateAsync(CreateProductRequest request)
+    public async Task<ApiResponseDto<ProductResponse>> CreateAsync(CreateProductRequest request)
     {
         bool categoryExists = await _productRepository.CategoryExistsAsync(request.CategoryId);
         if (!categoryExists)
         {
-            throw new InvalidOperationException("Category not found.");
+            return ApiResponseDto<ProductResponse>.ErrorResult("Category not found.");
         }
 
         Product product = _mapper.Map<Product>(request);
         await _productRepository.AddAsync(product);
-        return _mapper.Map<ProductResponse>(product);
+
+        ProductResponse data = _mapper.Map<ProductResponse>(product);
+        return ApiResponseDto<ProductResponse>.SuccessResult(data, "Product created successfully.");
     }
 
-    public async Task<ProductResponse?> UpdateAsync(int id, UpdateProductRequest request)
+    public async Task<ApiResponseDto<ProductResponse>> UpdateAsync(int id, UpdateProductRequest request)
     {
         Product? product = await _productRepository.GetByIdAsync(id);
         if (product == null)
         {
-            return null;
+            return ApiResponseDto<ProductResponse>.ErrorResult("Product not found.");
         }
 
         bool categoryExists = await _productRepository.CategoryExistsAsync(request.CategoryId);
         if (!categoryExists)
         {
-            throw new InvalidOperationException("Category not found.");
+            return ApiResponseDto<ProductResponse>.ErrorResult("Category not found.");
         }
 
         _mapper.Map(request, product);
         await _productRepository.UpdateAsync(product);
-        return _mapper.Map<ProductResponse>(product);
+
+        ProductResponse data = _mapper.Map<ProductResponse>(product);
+        return ApiResponseDto<ProductResponse>.SuccessResult(data, "Product updated successfully.");
     }
 
-    public async Task<bool> DeleteAsync(int id)
+    public async Task<ApiResponseDto<bool>> DeleteAsync(int id)
     {
         Product? product = await _productRepository.GetByIdAsync(id);
         if (product == null)
         {
-            return false;
+            return ApiResponseDto<bool>.ErrorResult("Product not found.");
         }
 
         await _productRepository.DeleteAsync(product);
-        return true;
+        return ApiResponseDto<bool>.SuccessResult(true, "Product deleted successfully.");
     }
 }

@@ -1,4 +1,5 @@
 using AutoMapper;
+using FoodStoreIdentity.DTOs;
 using FoodStoreIdentity.DTOs.Request;
 using FoodStoreIdentity.DTOs.Response;
 using FoodStoreIdentity.Interfaces;
@@ -26,14 +27,15 @@ public class AuthService : IAuthService
         _mapper = mapper;
     }
 
-    public async Task<(bool Success, IEnumerable<string> Errors, UserResponse? User)> RegisterAsync(RegisterRequest request)
+    public async Task<ApiResponseDto<UserResponse>> RegisterAsync(RegisterRequest request)
     {
         ApplicationUser user = _mapper.Map<ApplicationUser>(request);
 
         IdentityResult result = await _userManager.CreateAsync(user, request.Password);
         if (!result.Succeeded)
         {
-            return (false, result.Errors.Select(e => e.Description), null);
+            List<string> errors = result.Errors.Select(e => e.Description).ToList();
+            return ApiResponseDto<UserResponse>.ErrorResult("Registration failed.", errors);
         }
 
         await _userManager.AddToRoleAsync(user, "Customer");
@@ -41,21 +43,21 @@ public class AuthService : IAuthService
         UserResponse userResponse = _mapper.Map<UserResponse>(user);
         userResponse.Role = "Customer";
 
-        return (true, [], userResponse);
+        return ApiResponseDto<UserResponse>.SuccessResult(userResponse, "Registration successful.");
     }
 
-    public async Task<LoginResponse?> LoginAsync(LoginRequest request)
+    public async Task<ApiResponseDto<LoginResponse>> LoginAsync(LoginRequest request)
     {
         ApplicationUser? user = await _userManager.FindByEmailAsync(request.Email);
         if (user == null)
         {
-            return null;
+            return ApiResponseDto<LoginResponse>.ErrorResult("Invalid credentials.");
         }
 
         SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: false);
         if (!result.Succeeded)
         {
-            return null;
+            return ApiResponseDto<LoginResponse>.ErrorResult("Invalid credentials.");
         }
 
         IList<string> roles = await _userManager.GetRolesAsync(user);
@@ -65,6 +67,6 @@ public class AuthService : IAuthService
         loginResponse.Role = roles.FirstOrDefault() ?? string.Empty;
         loginResponse.Token = token;
 
-        return loginResponse;
+        return ApiResponseDto<LoginResponse>.SuccessResult(loginResponse, "Login successful.");
     }
 }

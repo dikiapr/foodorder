@@ -1,4 +1,5 @@
 using AutoMapper;
+using FoodStoreIdentity.DTOs;
 using FoodStoreIdentity.DTOs.Request;
 using FoodStoreIdentity.DTOs.Response;
 using FoodStoreIdentity.Interfaces;
@@ -17,65 +18,76 @@ public class CategoryService : ICategoryService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<CategoryResponse>> GetAllAsync()
+    public async Task<ApiResponseDto<IEnumerable<CategoryResponse>>> GetAllAsync()
     {
         IEnumerable<Category> categories = await _categoryRepository.GetAllAsync();
-        return _mapper.Map<IEnumerable<CategoryResponse>>(categories);
+        IEnumerable<CategoryResponse> data = _mapper.Map<IEnumerable<CategoryResponse>>(categories);
+        return ApiResponseDto<IEnumerable<CategoryResponse>>.SuccessResult(data, "Categories retrieved successfully.");
     }
 
-    public async Task<CategoryResponse?> GetByIdAsync(int id)
-    {
-        Category? category = await _categoryRepository.GetByIdAsync(id);
-        return category == null ? null : _mapper.Map<CategoryResponse>(category);
-    }
-
-    public async Task<CategoryResponse> CreateAsync(CreateCategoryRequest request)
-    {
-        bool nameExists = await _categoryRepository.NameExistsAsync(request.Name);
-        if (nameExists)
-        {
-            throw new InvalidOperationException("Category name already exists.");
-        }
-
-        Category category = _mapper.Map<Category>(request);
-        await _categoryRepository.AddAsync(category);
-        return _mapper.Map<CategoryResponse>(category);
-    }
-
-    public async Task<CategoryResponse?> UpdateAsync(int id, UpdateCategoryRequest request)
+    public async Task<ApiResponseDto<CategoryResponse>> GetByIdAsync(int id)
     {
         Category? category = await _categoryRepository.GetByIdAsync(id);
         if (category == null)
         {
-            return null;
+            return ApiResponseDto<CategoryResponse>.ErrorResult("Category not found.");
+        }
+
+        CategoryResponse data = _mapper.Map<CategoryResponse>(category);
+        return ApiResponseDto<CategoryResponse>.SuccessResult(data, "Category retrieved successfully.");
+    }
+
+    public async Task<ApiResponseDto<CategoryResponse>> CreateAsync(CreateCategoryRequest request)
+    {
+        bool nameExists = await _categoryRepository.NameExistsAsync(request.Name);
+        if (nameExists)
+        {
+            return ApiResponseDto<CategoryResponse>.ErrorResult("Category name already exists.");
+        }
+
+        Category category = _mapper.Map<Category>(request);
+        await _categoryRepository.AddAsync(category);
+
+        CategoryResponse data = _mapper.Map<CategoryResponse>(category);
+        return ApiResponseDto<CategoryResponse>.SuccessResult(data, "Category created successfully.");
+    }
+
+    public async Task<ApiResponseDto<CategoryResponse>> UpdateAsync(int id, UpdateCategoryRequest request)
+    {
+        Category? category = await _categoryRepository.GetByIdAsync(id);
+        if (category == null)
+        {
+            return ApiResponseDto<CategoryResponse>.ErrorResult("Category not found.");
         }
 
         bool nameExists = await _categoryRepository.NameExistsAsync(request.Name, excludeId: id);
         if (nameExists)
         {
-            throw new InvalidOperationException("Category name already exists.");
+            return ApiResponseDto<CategoryResponse>.ErrorResult("Category name already exists.");
         }
 
         _mapper.Map(request, category);
         await _categoryRepository.UpdateAsync(category);
-        return _mapper.Map<CategoryResponse>(category);
+
+        CategoryResponse data = _mapper.Map<CategoryResponse>(category);
+        return ApiResponseDto<CategoryResponse>.SuccessResult(data, "Category updated successfully.");
     }
 
-    public async Task<bool> DeleteAsync(int id)
+    public async Task<ApiResponseDto<bool>> DeleteAsync(int id)
     {
         Category? category = await _categoryRepository.GetByIdAsync(id);
         if (category == null)
         {
-            return false;
+            return ApiResponseDto<bool>.ErrorResult("Category not found.");
         }
 
         bool hasProducts = await _categoryRepository.HasProductsAsync(id);
         if (hasProducts)
         {
-            throw new InvalidOperationException("Cannot delete category that has products.");
+            return ApiResponseDto<bool>.ErrorResult("Cannot delete category that has products.");
         }
 
         await _categoryRepository.DeleteAsync(category);
-        return true;
+        return ApiResponseDto<bool>.SuccessResult(true, "Category deleted successfully.");
     }
 }

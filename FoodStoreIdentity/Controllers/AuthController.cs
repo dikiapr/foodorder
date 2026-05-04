@@ -1,3 +1,4 @@
+using FoodStoreIdentity.DTOs;
 using FoodStoreIdentity.DTOs.Request;
 using FoodStoreIdentity.DTOs.Response;
 using FoodStoreIdentity.Interfaces;
@@ -17,24 +18,28 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<UserResponse>> Register([FromBody] RegisterRequest request)
+    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
-        (bool success, IEnumerable<string> errors, UserResponse? user) = await _authService.RegisterAsync(request);
-        if (!success)
+        ApiResponseDto<UserResponse> result = await _authService.RegisterAsync(request);
+
+        if (!result.Success)
         {
-            return BadRequest(errors);            
+            return BadRequest(result);
         }
-        return Ok(user);
+
+        return Ok(result);
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        LoginResponse? response = await _authService.LoginAsync(request);
-        if (response == null)
+        ApiResponseDto<LoginResponse> result = await _authService.LoginAsync(request);
+
+        if (!result.Success)
         {
-            return Unauthorized("Invalid credentials.");            
+            return Unauthorized(result);
         }
-        return Ok(response);
+
+        return Ok(result);
     }
 }

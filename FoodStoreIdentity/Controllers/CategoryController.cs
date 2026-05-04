@@ -1,3 +1,4 @@
+using FoodStoreIdentity.DTOs;
 using FoodStoreIdentity.DTOs.Request;
 using FoodStoreIdentity.DTOs.Response;
 using FoodStoreIdentity.Interfaces;
@@ -18,79 +19,70 @@ public class CategoryController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CategoryResponse>>> GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        IEnumerable<CategoryResponse> categories = await _categoryService.GetAllAsync();
-        return Ok(categories);
+        ApiResponseDto<IEnumerable<CategoryResponse>> result = await _categoryService.GetAllAsync();
+
+        if (!result.Success)
+        {
+            return BadRequest(result);
+        }
+
+        return Ok(result);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<CategoryResponse>> GetById([FromRoute] int id)
+    public async Task<IActionResult> GetById([FromRoute] int id)
     {
-        CategoryResponse? category = await _categoryService.GetByIdAsync(id);
+        ApiResponseDto<CategoryResponse> result = await _categoryService.GetByIdAsync(id);
 
-        if (category == null)
+        if (!result.Success)
         {
-            return NotFound();
+            return NotFound(result);
         }
 
-        return Ok(category);
+        return Ok(result);
     }
 
     [HttpPost]
     [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<CategoryResponse>> Create([FromBody] CreateCategoryRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateCategoryRequest request)
     {
-        try
+        ApiResponseDto<CategoryResponse> result = await _categoryService.CreateAsync(request);
+
+        if (!result.Success)
         {
-            CategoryResponse category = await _categoryService.CreateAsync(request);
-            return CreatedAtAction(nameof(GetById), new { id = category.Id }, category);
+            return BadRequest(result);
         }
-        catch (InvalidOperationException ex)
-        {
-            return BadRequest(ex.Message);
-        }
+
+        return CreatedAtAction(nameof(GetById), new { id = result.Data!.Id }, result);
     }
 
     [HttpPut("{id}")]
     [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<CategoryResponse>> Update([FromRoute] int id, [FromBody] UpdateCategoryRequest request)
+    public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCategoryRequest request)
     {
-        try
-        {
-            CategoryResponse? category = await _categoryService.UpdateAsync(id, request);
+        ApiResponseDto<CategoryResponse> result = await _categoryService.UpdateAsync(id, request);
 
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(category);
-        }
-        catch (InvalidOperationException ex)
+        if (!result.Success)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(result);
         }
+
+        return Ok(result);
     }
 
     [HttpDelete("{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
-        try
-        {
-            bool deleted = await _categoryService.DeleteAsync(id);
+        ApiResponseDto<bool> result = await _categoryService.DeleteAsync(id);
 
-            if (!deleted)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-        }
-        catch (InvalidOperationException ex)
+        if (!result.Success)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(result);
         }
+
+        return Ok(result);
     }
 }

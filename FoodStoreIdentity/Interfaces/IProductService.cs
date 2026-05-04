@@ -1,3 +1,4 @@
+using FoodStoreIdentity.DTOs;
 using FoodStoreIdentity.DTOs.Request;
 using FoodStoreIdentity.DTOs.Response;
 
@@ -5,9 +6,9 @@ namespace FoodStoreIdentity.Interfaces;
 
 public interface IProductService
 {
-    Task<IEnumerable<ProductResponse>> GetAllAsync();
-    Task<ProductResponse?> GetByIdAsync(int id);
-    Task<ProductResponse> CreateAsync(CreateProductRequest request);
-    Task<ProductResponse?> UpdateAsync(int id, UpdateProductRequest request);
-    Task<bool> DeleteAsync(int id);
+    Task<ApiResponseDto<IEnumerable<ProductResponse>>> GetAllAsync();
+    Task<ApiResponseDto<ProductResponse>> GetByIdAsync(int id);
+    Task<ApiResponseDto<ProductResponse>> CreateAsync(CreateProductRequest request);
+    Task<ApiResponseDto<ProductResponse>> UpdateAsync(int id, UpdateProductRequest request);
+    Task<ApiResponseDto<bool>> DeleteAsync(int id);
 }
