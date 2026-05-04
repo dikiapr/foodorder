@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodStore", "FoodStore\FoodStore.csproj", "{66DAD333-E77D-47B0-A373-81798CFF17EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodStoreIdentity", "FoodStoreIdentity\FoodStoreIdentity.csproj", "{6C40AAC2-62DA-4145-A3B9-6F0392EDBB02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,18 @@ Global
 		{66DAD333-E77D-47B0-A373-81798CFF17EA}.Release|x64.Build.0 = Release|Any CPU
 		{66DAD333-E77D-47B0-A373-81798CFF17EA}.Release|x86.ActiveCfg = Release|Any CPU
 		{66DAD333-E77D-47B0-A373-81798CFF17EA}.Release|x86.Build.0 = Release|Any CPU
+		{6C40AAC2-62DA-4145-A3B9-6F0392EDBB02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C40AAC2-62DA-4145-A3B9-6F0392EDBB02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C40AAC2-62DA-4145-A3B9-6F0392EDBB02}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6C40AAC2-62DA-4145-A3B9-6F0392EDBB02}.Debug|x64.Build.0 = Debug|Any CPU
+		{6C40AAC2-62DA-4145-A3B9-6F0392EDBB02}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6C40AAC2-62DA-4145-A3B9-6F0392EDBB02}.Debug|x86.Build.0 = Debug|Any CPU
+		{6C40AAC2-62DA-4145-A3B9-6F0392EDBB02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C40AAC2-62DA-4145-A3B9-6F0392EDBB02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C40AAC2-62DA-4145-A3B9-6F0392EDBB02}.Release|x64.ActiveCfg = Release|Any CPU
+		{6C40AAC2-62DA-4145-A3B9-6F0392EDBB02}.Release|x64.Build.0 = Release|Any CPU
+		{6C40AAC2-62DA-4145-A3B9-6F0392EDBB02}.Release|x86.ActiveCfg = Release|Any CPU
+		{6C40AAC2-62DA-4145-A3B9-6F0392EDBB02}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
