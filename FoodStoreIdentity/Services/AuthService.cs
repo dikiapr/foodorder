@@ -1,3 +1,4 @@
+using AutoMapper;
 using FoodStoreIdentity.DTOs.Request;
 using FoodStoreIdentity.DTOs.Response;
 using FoodStoreIdentity.Interfaces;
@@ -11,24 +12,23 @@ public class AuthService : IAuthService
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly IJwtService _jwtService;
+    private readonly IMapper _mapper;
 
     public AuthService(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
-        IJwtService jwtService)
+        IJwtService jwtService,
+        IMapper mapper)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _jwtService = jwtService;
+        _mapper = mapper;
     }
 
     public async Task<(bool Success, IEnumerable<string> Errors, UserResponse? User)> RegisterAsync(RegisterRequest request)
     {
-        ApplicationUser user = new ApplicationUser()
-        {
-            UserName = request.Username,
-            Email = request.Email
-        };
+        ApplicationUser user = _mapper.Map<ApplicationUser>(request);
 
         IdentityResult result = await _userManager.CreateAsync(user, request.Password);
         if (!result.Succeeded)
@@ -38,13 +38,10 @@ public class AuthService : IAuthService
 
         await _userManager.AddToRoleAsync(user, "Customer");
 
-        return (true, [], new UserResponse()
-        {
-            Id = user.Id,
-            Username = user.UserName!,
-            Email = user.Email!,
-            Role = "Customer"
-        });
+        UserResponse userResponse = _mapper.Map<UserResponse>(user);
+        userResponse.Role = "Customer";
+
+        return (true, [], userResponse);
     }
 
     public async Task<LoginResponse?> LoginAsync(LoginRequest request)
@@ -52,7 +49,7 @@ public class AuthService : IAuthService
         ApplicationUser? user = await _userManager.FindByEmailAsync(request.Email);
         if (user == null)
         {
-            return null;    
+            return null;
         }
 
         SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: false);
@@ -64,13 +61,10 @@ public class AuthService : IAuthService
         IList<string> roles = await _userManager.GetRolesAsync(user);
         string token = _jwtService.GenerateToken(user, roles);
 
-        return new LoginResponse()
-        {
-            Id = user.Id,
-            Username = user.UserName!,
-            Email = user.Email!,
-            Role = roles.FirstOrDefault() ?? string.Empty,
-            Token = token
-        };
+        LoginResponse loginResponse = _mapper.Map<LoginResponse>(user);
+        loginResponse.Role = roles.FirstOrDefault() ?? string.Empty;
+        loginResponse.Token = token;
+
+        return loginResponse;
     }
 }

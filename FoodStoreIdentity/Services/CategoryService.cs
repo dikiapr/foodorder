@@ -1,3 +1,4 @@
+using AutoMapper;
 using FoodStoreIdentity.DTOs.Request;
 using FoodStoreIdentity.DTOs.Response;
 using FoodStoreIdentity.Interfaces;
@@ -8,22 +9,24 @@ namespace FoodStoreIdentity.Services;
 public class CategoryService : ICategoryService
 {
     private readonly ICategoryRepository _categoryRepository;
+    private readonly IMapper _mapper;
 
-    public CategoryService(ICategoryRepository categoryRepository)
+    public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
     {
         _categoryRepository = categoryRepository;
+        _mapper = mapper;
     }
 
     public async Task<IEnumerable<CategoryResponse>> GetAllAsync()
     {
         IEnumerable<Category> categories = await _categoryRepository.GetAllAsync();
-        return categories.Select(ToResponse);
+        return _mapper.Map<IEnumerable<CategoryResponse>>(categories);
     }
 
     public async Task<CategoryResponse?> GetByIdAsync(int id)
     {
         Category? category = await _categoryRepository.GetByIdAsync(id);
-        return category == null ? null : ToResponse(category);
+        return category == null ? null : _mapper.Map<CategoryResponse>(category);
     }
 
     public async Task<CategoryResponse> CreateAsync(CreateCategoryRequest request)
@@ -33,9 +36,10 @@ public class CategoryService : ICategoryService
         {
             throw new InvalidOperationException("Category name already exists.");
         }
-        Category category = new Category { Name = request.Name };
+
+        Category category = _mapper.Map<Category>(request);
         await _categoryRepository.AddAsync(category);
-        return ToResponse(category);
+        return _mapper.Map<CategoryResponse>(category);
     }
 
     public async Task<CategoryResponse?> UpdateAsync(int id, UpdateCategoryRequest request)
@@ -52,9 +56,9 @@ public class CategoryService : ICategoryService
             throw new InvalidOperationException("Category name already exists.");
         }
 
-        category.Name = request.Name;
+        _mapper.Map(request, category);
         await _categoryRepository.UpdateAsync(category);
-        return ToResponse(category);
+        return _mapper.Map<CategoryResponse>(category);
     }
 
     public async Task<bool> DeleteAsync(int id)
@@ -74,10 +78,4 @@ public class CategoryService : ICategoryService
         await _categoryRepository.DeleteAsync(category);
         return true;
     }
-
-    private static CategoryResponse ToResponse(Category category) => new()
-    {
-        Id = category.Id,
-        Name = category.Name
-    };
 }

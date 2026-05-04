@@ -1,6 +1,7 @@
 using System.Text;
 using FoodStoreIdentity.Data;
 using FoodStoreIdentity.Interfaces;
+using FoodStoreIdentity.Mappings;
 using FoodStoreIdentity.Models;
 using FoodStoreIdentity.Repositories;
 using FoodStoreIdentity.Services;
@@ -20,12 +21,17 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddAutoMapper(typeof(Program));
+
 builder.Services.AddScoped<IJwtService, JwtService>();
+
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 // Override default scheme dari Identity (cookie) ke JWT
 builder.Services.AddAuthentication(options =>
@@ -36,7 +42,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    options.TokenValidationParameters = new TokenValidationParameters
+    options.TokenValidationParameters = new TokenValidationParameters()
     {
         ValidateIssuer = true,
         ValidateAudience = true,
@@ -53,7 +59,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
         Name = "Authorization",
         Type = SecuritySchemeType.Http,
