@@ -18,4 +18,7 @@ public class UpdateProductRequest
 
     [Range(0, int.MaxValue)]
     public int Stock { get; set; }
+
+    [Required]
+    public int CategoryId { get; set; }
 }

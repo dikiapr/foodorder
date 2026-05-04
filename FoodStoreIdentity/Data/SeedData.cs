@@ -7,8 +7,18 @@ public static class SeedData
 {
     public static async Task Initialize(IServiceProvider serviceProvider)
     {
+        var context = serviceProvider.GetRequiredService<AppDbContext>();
         var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+        if (!context.Categories.Any())
+        {
+            context.Categories.AddRange(
+                new Category { Name = "Food" },
+                new Category { Name = "Drink" }
+            );
+            await context.SaveChangesAsync();
+        }
 
         string[] roles = ["Admin", "Customer"];
         foreach (string role in roles)

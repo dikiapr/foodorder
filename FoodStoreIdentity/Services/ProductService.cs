@@ -18,13 +18,17 @@ public class ProductService : IProductService
 
     public async Task<IEnumerable<ProductResponse>> GetAllAsync()
     {
-        List<Product> products = await _context.Products.ToListAsync();
+        List<Product> products = await _context.Products
+            .Include(product => product.Category)
+            .ToListAsync();
         return products.Select(ToResponse);
     }
 
     public async Task<ProductResponse?> GetByIdAsync(int id)
     {
-        Product? product = await _context.Products.FindAsync(id);
+        Product? product = await _context.Products
+            .Include(product => product.Category)
+            .FirstOrDefaultAsync(product => product.Id == id);
         return product == null ? null : ToResponse(product);
     }
 
@@ -35,17 +39,22 @@ public class ProductService : IProductService
             Name = request.Name,
             Description = request.Description,
             Price = request.Price,
-            Stock = request.Stock
+            Stock = request.Stock,
+            CategoryId = request.CategoryId
         };
 
         _context.Products.Add(product);
         await _context.SaveChangesAsync();
+
+        await _context.Entry(product).Reference(product => product.Category).LoadAsync();
         return ToResponse(product);
     }
 
     public async Task<ProductResponse?> UpdateAsync(int id, UpdateProductRequest request)
     {
-        Product? product = await _context.Products.FindAsync(id);
+        Product? product = await _context.Products
+            .Include(product => product.Category)
+            .FirstOrDefaultAsync(product => product.Id == id);
         if (product == null)
         {
             return null;
@@ -55,8 +64,11 @@ public class ProductService : IProductService
         product.Description = request.Description;
         product.Price = request.Price;
         product.Stock = request.Stock;
+        product.CategoryId = request.CategoryId;
 
         await _context.SaveChangesAsync();
+
+        await _context.Entry(product).Reference(product => product.Category).LoadAsync();
         return ToResponse(product);
     }
 
@@ -79,6 +91,8 @@ public class ProductService : IProductService
         Name = product.Name,
         Description = product.Description,
         Price = product.Price,
-        Stock = product.Stock
+        Stock = product.Stock,
+        CategoryId = product.CategoryId,
+        CategoryName = product.Category?.Name
     };
 }
