@@ -1,40 +1,40 @@
-using FoodStoreIdentity.Data;
 using FoodStoreIdentity.DTOs.Request;
 using FoodStoreIdentity.DTOs.Response;
 using FoodStoreIdentity.Interfaces;
 using FoodStoreIdentity.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace FoodStoreIdentity.Services;
 
 public class ProductService : IProductService
 {
-    private readonly AppDbContext _context;
+    private readonly IProductRepository _productRepository;
 
-    public ProductService(AppDbContext context)
+    public ProductService(IProductRepository productRepository)
     {
-        _context = context;
+        _productRepository = productRepository;
     }
 
     public async Task<IEnumerable<ProductResponse>> GetAllAsync()
     {
-        List<Product> products = await _context.Products
-            .Include(product => product.Category)
-            .ToListAsync();
+        IEnumerable<Product> products = await _productRepository.GetAllAsync();
         return products.Select(ToResponse);
     }
 
     public async Task<ProductResponse?> GetByIdAsync(int id)
     {
-        Product? product = await _context.Products
-            .Include(product => product.Category)
-            .FirstOrDefaultAsync(product => product.Id == id);
+        Product? product = await _productRepository.GetByIdAsync(id);
         return product == null ? null : ToResponse(product);
     }
 
     public async Task<ProductResponse> CreateAsync(CreateProductRequest request)
     {
-        Product product = new Product()
+        bool categoryExists = await _productRepository.CategoryExistsAsync(request.CategoryId);
+        if (!categoryExists)
+        {
+            throw new InvalidOperationException("Category not found.");
+        }
+
+        Product product = new Product
         {
             Name = request.Name,
             Description = request.Description,
@@ -43,21 +43,24 @@ public class ProductService : IProductService
             CategoryId = request.CategoryId
         };
 
-        _context.Products.Add(product);
-        await _context.SaveChangesAsync();
+        await _productRepository.AddAsync(product);
 
-        await _context.Entry(product).Reference(product => product.Category).LoadAsync();
-        return ToResponse(product);
+        Product? productWithCategory = await _productRepository.GetByIdAsync(product.Id);
+        return ToResponse(productWithCategory!);
     }
 
     public async Task<ProductResponse?> UpdateAsync(int id, UpdateProductRequest request)
     {
-        Product? product = await _context.Products
-            .Include(product => product.Category)
-            .FirstOrDefaultAsync(product => product.Id == id);
+        Product? product = await _productRepository.GetByIdAsync(id);
         if (product == null)
         {
             return null;
+        }
+
+        bool categoryExists = await _productRepository.CategoryExistsAsync(request.CategoryId);
+        if (!categoryExists)
+        {
+            throw new InvalidOperationException("Category not found.");
         }
 
         product.Name = request.Name;
@@ -66,22 +69,21 @@ public class ProductService : IProductService
         product.Stock = request.Stock;
         product.CategoryId = request.CategoryId;
 
-        await _context.SaveChangesAsync();
+        await _productRepository.UpdateAsync(product);
 
-        await _context.Entry(product).Reference(product => product.Category).LoadAsync();
-        return ToResponse(product);
+        Product? updatedProduct = await _productRepository.GetByIdAsync(id);
+        return ToResponse(updatedProduct!);
     }
 
     public async Task<bool> DeleteAsync(int id)
     {
-        Product? product = await _context.Products.FindAsync(id);
+        Product? product = await _productRepository.GetByIdAsync(id);
         if (product == null)
         {
             return false;
         }
 
-        _context.Products.Remove(product);
-        await _context.SaveChangesAsync();
+        await _productRepository.DeleteAsync(product);
         return true;
     }
 
