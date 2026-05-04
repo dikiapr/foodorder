@@ -21,7 +21,8 @@ public class ProductController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductResponse>>> GetAll()
     {
-        return Ok(await _productService.GetAllAsync());
+        IEnumerable<ProductResponse> response = await _productService.GetAllAsync();
+        return Ok(response);
     }
 
     [HttpGet("{id}")]
@@ -39,31 +40,56 @@ public class ProductController : ControllerBase
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ProductResponse>> Create([FromBody] CreateProductRequest request)
     {
-        ProductResponse product = await _productService.CreateAsync(request);
-        return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
+        try
+        {
+            ProductResponse product = await _productService.CreateAsync(request);
+            return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPut("{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ProductResponse>> Update([FromRoute] int id, [FromBody] UpdateProductRequest request)
-    {
-        ProductResponse? product = await _productService.UpdateAsync(id, request);
-        if (product == null)
+   {
+        try
         {
-            return NotFound();
+            ProductResponse? product = await _productService.UpdateAsync(id, request);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(product);
         }
-        return Ok(product);
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpDelete("{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
-        bool deleted = await _productService.DeleteAsync(id);
-        if (!deleted)
+        try
         {
-            return NotFound();
+            bool deleted = await _productService.DeleteAsync(id);
+
+            if (!deleted)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
-        return NoContent();
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }
