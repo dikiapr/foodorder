@@ -302,3 +302,6 @@ C:/New folder (2)/foodorder/FoodStoreIdentity/obj/Debug/net8.0/ref/FoodStoreIden
 /Users/diki/Formulatrix/foodorder/FoodStoreIdentity/obj/Debug/net8.0/FoodStoreIdentity.pdb
 /Users/diki/Formulatrix/foodorder/FoodStoreIdentity/obj/Debug/net8.0/FoodStoreIdentity.genruntimeconfig.cache
 /Users/diki/Formulatrix/foodorder/FoodStoreIdentity/obj/Debug/net8.0/ref/FoodStoreIdentity.dll
+/Users/diki/Formulatrix/foodorder/FoodStoreIdentity/bin/Debug/net8.0/FluentValidation.dll
+/Users/diki/Formulatrix/foodorder/FoodStoreIdentity/bin/Debug/net8.0/FluentValidation.AspNetCore.dll
+/Users/diki/Formulatrix/foodorder/FoodStoreIdentity/bin/Debug/net8.0/FluentValidation.DependencyInjectionExtensions.dll

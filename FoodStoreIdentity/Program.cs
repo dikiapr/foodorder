@@ -1,10 +1,14 @@
 using System.Text;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using FoodStoreIdentity.Data;
+using FoodStoreIdentity.DTOs.Request;
 using FoodStoreIdentity.Interfaces;
 using FoodStoreIdentity.Mappings;
 using FoodStoreIdentity.Models;
 using FoodStoreIdentity.Repositories;
 using FoodStoreIdentity.Services;
+using FoodStoreIdentity.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -56,6 +60,14 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();
+builder.Services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
+builder.Services.AddTransient<IValidator<CreateProductRequest>, CreateProductRequestValidator>();
+builder.Services.AddTransient<IValidator<UpdateProductRequest>, UpdateProductRequestValidator>();
+builder.Services.AddTransient<IValidator<CreateCategoryRequest>, CreateCategoryRequestValidator>();
+builder.Services.AddTransient<IValidator<UpdateCategoryRequest>, UpdateCategoryRequestValidator>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
