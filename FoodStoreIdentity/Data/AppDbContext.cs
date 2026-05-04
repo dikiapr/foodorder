@@ -25,6 +25,11 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
                   .WithMany(category => category.Products)
                   .HasForeignKey(product => product.CategoryId)
                   .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(product => product.CreatedBy)
+                  .WithMany(user => user.Products)
+                  .HasForeignKey(product => product.CreatedByUserId)
+                  .OnDelete(DeleteBehavior.SetNull);
         });
     }
 }

@@ -17,7 +17,8 @@ public class ProductRepository : IProductRepository
     public async Task<IEnumerable<Product>> GetAllAsync()
     {
         return await _context.Products
-            .Include(p => p.Category)
+            .Include(product => product.Category)
+            .Include(product => product.CreatedBy)
             .ToListAsync();
     }
 
@@ -25,6 +26,7 @@ public class ProductRepository : IProductRepository
     {
         Product? product = await _context.Products
             .Include(product => product.Category)
+            .Include(product => product.CreatedBy)
             .FirstOrDefaultAsync(product => product.Id == id);
         return product;
     }
@@ -34,12 +36,14 @@ public class ProductRepository : IProductRepository
         _context.Products.Add(product);
         await _context.SaveChangesAsync();
         await _context.Entry(product).Reference(product => product.Category).LoadAsync();
+        await _context.Entry(product).Reference(product => product.CreatedBy).LoadAsync();
     }
 
     public async Task UpdateAsync(Product product)
     {
         await _context.SaveChangesAsync();
         await _context.Entry(product).Reference(product => product.Category).LoadAsync();
+        await _context.Entry(product).Reference(product => product.CreatedBy).LoadAsync();
     }
 
     public async Task DeleteAsync(Product product)

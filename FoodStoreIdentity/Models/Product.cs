@@ -20,4 +20,7 @@ public class Product
 
     public int CategoryId { get; set; }
     public Category? Category { get; set; }
+
+    public string? CreatedByUserId { get; set; }
+    public ApplicationUser? CreatedBy { get; set; }
 }
