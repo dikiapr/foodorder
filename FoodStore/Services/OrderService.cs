@@ -1,3 +1,4 @@
+using AutoMapper;
 using FoodStore.Common;
 using FoodStore.DTOs.Request;
 using FoodStore.DTOs.Response;
@@ -11,21 +12,23 @@ public class OrderService : IOrderService
 {
     private readonly IOrderRepository _orderRepository;
     private readonly ICartItemRepository _cartItemRepository;
+    private readonly IMapper _mapper;
 
-    public OrderService(IOrderRepository orderRepository, ICartItemRepository cartItemRepository)
+    public OrderService(IOrderRepository orderRepository, ICartItemRepository cartItemRepository, IMapper mapper)
     {
         _orderRepository = orderRepository;
         _cartItemRepository = cartItemRepository;
+        _mapper = mapper;
     }
 
     public async Task<PagedResponse<OrderResponse>> GetAllAsync(int? userId, OrderQueryParameters parameters)
     {
         (IEnumerable<Order> Items, int TotalCount) paginatedOrders = await _orderRepository.GetAllAsync(userId, parameters);
 
-        IEnumerable<OrderResponse> data = paginatedOrders.Items.Select(ToResponse);
+        IEnumerable<OrderResponse> data = _mapper.Map<IEnumerable<OrderResponse>>(paginatedOrders.Items);
         int totalPages = (int)Math.Ceiling(paginatedOrders.TotalCount / (double)parameters.PageSize);
 
-        PagedResponse<OrderResponse> response = new PagedResponse<OrderResponse>()
+        return new PagedResponse<OrderResponse>
         {
             Data = data,
             Page = parameters.Page,
@@ -33,15 +36,12 @@ public class OrderService : IOrderService
             TotalCount = paginatedOrders.TotalCount,
             TotalPages = totalPages
         };
-
-        return response;
     }
 
     public async Task<OrderResponse?> GetByIdAsync(int id)
     {
         Order? order = await _orderRepository.GetByIdAsync(id);
-        OrderResponse? response = order == null ? null : ToResponse(order);
-        return response;
+        return order == null ? null : _mapper.Map<OrderResponse>(order);
     }
 
     public async Task<OrderResponse> CheckoutAsync(int userId)
@@ -62,8 +62,7 @@ public class OrderService : IOrderService
         }
 
         Order order = await _orderRepository.CheckoutAsync(userId, cartItems);
-        OrderResponse response = ToResponse(order);
-        return response;
+        return _mapper.Map<OrderResponse>(order);
     }
 
     public async Task<OrderResponse?> UpdateStatusAsync(int id, UpdateOrderStatusRequest request)
@@ -76,8 +75,7 @@ public class OrderService : IOrderService
 
         order.Status = request.Status;
         await _orderRepository.UpdateStatusAsync(order);
-
-        return ToResponse(order);
+        return _mapper.Map<OrderResponse>(order);
     }
 
     public async Task<(OrderResponse? Order, string? Error)> ConfirmReceivedAsync(int orderId, int userId)
@@ -101,28 +99,6 @@ public class OrderService : IOrderService
 
         order.Status = OrderStatus.Completed;
         await _orderRepository.UpdateStatusAsync(order);
-
-        return (ToResponse(order), null);
-    }
-
-    private static OrderResponse ToResponse(Order order)
-    {
-        return new OrderResponse()
-        {
-            Id = order.Id,
-            UserId = order.UserId,
-            OrderDate = order.OrderDate,
-            Status = order.Status.ToString(),
-            TotalAmount = order.TotalAmount,
-            Items = order.OrderItems.Select(orderItem => new OrderItemResponse
-            {
-                Id = orderItem.Id,
-                ProductId = orderItem.ProductId,
-                ProductName = orderItem.Product?.Name ?? string.Empty,
-                UnitPrice = orderItem.UnitPrice,
-                Quantity = orderItem.Quantity,
-                Subtotal = orderItem.UnitPrice * orderItem.Quantity
-            }).ToList()
-        };
+        return (_mapper.Map<OrderResponse>(order), null);
     }
 }

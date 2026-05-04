@@ -1,3 +1,4 @@
+using AutoMapper;
 using FoodStore.Common;
 using FoodStore.DTOs.Request;
 using FoodStore.DTOs.Response;
@@ -9,20 +10,22 @@ namespace FoodStore.Services;
 public class ProductService : IProductService
 {
     private readonly IProductRepository _productRepository;
+    private readonly IMapper _mapper;
 
-    public ProductService(IProductRepository productRepository)
+    public ProductService(IProductRepository productRepository, IMapper mapper)
     {
         _productRepository = productRepository;
+        _mapper = mapper;
     }
 
     public async Task<PagedResponse<ProductResponse>> GetAllAsync(ProductQueryParameters parameters)
     {
         (IEnumerable<Product> Items, int TotalCount) paginatedProducts = await _productRepository.GetAllAsync(parameters);
 
-        IEnumerable<ProductResponse> data = paginatedProducts.Items.Select(ToResponse);
+        IEnumerable<ProductResponse> data = _mapper.Map<IEnumerable<ProductResponse>>(paginatedProducts.Items);
         int totalPages = (int)Math.Ceiling(paginatedProducts.TotalCount / (double)parameters.PageSize);
 
-        PagedResponse<ProductResponse> response = new PagedResponse<ProductResponse>()
+        return new PagedResponse<ProductResponse>
         {
             Data = data,
             Page = parameters.Page,
@@ -30,15 +33,12 @@ public class ProductService : IProductService
             TotalCount = paginatedProducts.TotalCount,
             TotalPages = totalPages
         };
-
-        return response;
     }
 
     public async Task<ProductResponse?> GetByIdAsync(int id)
     {
         Product? product = await _productRepository.GetByIdAsync(id);
-        ProductResponse? response = product == null ? null : ToResponse(product);
-        return response;
+        return product == null ? null : _mapper.Map<ProductResponse>(product);
     }
 
     public async Task<ProductResponse> CreateAsync(CreateProductRequest request)
@@ -49,19 +49,9 @@ public class ProductService : IProductService
             throw new InvalidOperationException("Category not found.");
         }
 
-        Product product = new Product()
-        {
-            Name = request.Name,
-            Description = request.Description,
-            Price = request.Price,
-            Stock = request.Stock,
-            ImageUrl = request.ImageUrl,
-            CategoryId = request.CategoryId
-        };
-
+        Product product = _mapper.Map<Product>(request);
         await _productRepository.AddAsync(product);
-        ProductResponse response = ToResponse(product);
-        return response;
+        return _mapper.Map<ProductResponse>(product);
     }
 
     public async Task<ProductResponse?> UpdateAsync(int id, UpdateProductRequest request)
@@ -78,16 +68,9 @@ public class ProductService : IProductService
             throw new InvalidOperationException("Category not found.");
         }
 
-        product.Name = request.Name;
-        product.Description = request.Description;
-        product.Price = request.Price;
-        product.Stock = request.Stock;
-        product.ImageUrl = request.ImageUrl;
-        product.CategoryId = request.CategoryId;
-
+        _mapper.Map(request, product);
         await _productRepository.UpdateAsync(product);
-        ProductResponse? response = ToResponse(product);
-        return response;
+        return _mapper.Map<ProductResponse>(product);
     }
 
     public async Task<bool> DeleteAsync(int id)
@@ -106,20 +89,5 @@ public class ProductService : IProductService
 
         await _productRepository.DeleteAsync(product);
         return true;
-    }
-
-    private static ProductResponse ToResponse(Product product)
-    {
-        return new ProductResponse
-        {
-            Id = product.Id,
-            Name = product.Name,
-            Description = product.Description,
-            Price = product.Price,
-            Stock = product.Stock,
-            ImageUrl = product.ImageUrl,
-            CategoryId = product.CategoryId,
-            CategoryName = product.Category?.Name
-        };
     }
 }

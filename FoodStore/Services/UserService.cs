@@ -1,3 +1,4 @@
+using AutoMapper;
 using FoodStore.DTOs.Request;
 using FoodStore.DTOs.Response;
 using FoodStore.Interfaces;
@@ -9,11 +10,13 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly IJwtService _jwtService;
+    private readonly IMapper _mapper;
 
-    public UserService(IUserRepository userRepository, IJwtService jwtService)
+    public UserService(IUserRepository userRepository, IJwtService jwtService, IMapper mapper)
     {
         _userRepository = userRepository;
         _jwtService = jwtService;
+        _mapper = mapper;
     }
 
     public async Task<UserResponse> RegisterAsync(RegisterRequest request)
@@ -30,16 +33,11 @@ public class UserService : IUserService
             throw new InvalidOperationException("Email already registered.");
         }
 
-        User user = new User()
-        {
-            Username = request.Username,
-            Email = request.Email,
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password)
-        };
+        User user = _mapper.Map<User>(request);
+        user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
         await _userRepository.AddAsync(user);
-        UserResponse response = ToUserResponse(user);
-        return response;
+        return _mapper.Map<UserResponse>(user);
     }
 
     public async Task<LoginResponse> LoginAsync(LoginRequest request)
@@ -52,29 +50,8 @@ public class UserService : IUserService
         }
 
         string token = _jwtService.GenerateToken(user);
-        LoginResponse response = ToLoginResponse(user, token);
+        LoginResponse response = _mapper.Map<LoginResponse>(user);
+        response.Token = token;
         return response;
-    }
-
-    private static UserResponse ToUserResponse(User user)
-    {
-        return new UserResponse()
-        {
-            Id = user.Id,
-            Username = user.Username,
-            Email = user.Email
-        };
-    }
-
-    private static LoginResponse ToLoginResponse(User user, string token)
-    {
-        return new LoginResponse()
-        {
-            Id = user.Id,
-            Username = user.Username,
-            Email = user.Email,
-            Role = user.Role.ToString(),
-            Token = token
-        };
     }
 }
