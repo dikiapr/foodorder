@@ -56,7 +56,7 @@ public class CategoryController : ControllerBase
             return BadRequest(result);
         }
 
-        return CreatedAtAction(nameof(GetById), new { id = result.Data!.Id }, result);
+        return CreatedAtAction(nameof(GetById), new { id = result.Data?.Id }, result);
     }
 
     [HttpPut("{id}")]

@@ -37,7 +37,7 @@ public class ProductService : IProductService
         return ApiResponseDto<ProductResponse>.SuccessResult(data, "Product retrieved successfully.");
     }
 
-    public async Task<ApiResponseDto<ProductResponse>> CreateAsync(CreateProductRequest request)
+    public async Task<ApiResponseDto<ProductResponse>> CreateAsync(CreateProductRequest request, string? userId)
     {
         bool categoryExists = await _productRepository.CategoryExistsAsync(request.CategoryId);
         if (!categoryExists)
@@ -46,6 +46,7 @@ public class ProductService : IProductService
         }
 
         Product product = _mapper.Map<Product>(request);
+        product.CreatedByUserId = userId;
         await _productRepository.AddAsync(product);
 
         ProductResponse data = _mapper.Map<ProductResponse>(product);

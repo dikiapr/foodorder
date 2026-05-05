@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using FoodStoreIdentity.DTOs;
 using FoodStoreIdentity.DTOs.Request;
 using FoodStoreIdentity.DTOs.Response;
@@ -49,14 +50,15 @@ public class ProductController : ControllerBase
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create([FromBody] CreateProductRequest request)
     {
-        ApiResponseDto<ProductResponse> result = await _productService.CreateAsync(request);
+        string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        ApiResponseDto<ProductResponse> result = await _productService.CreateAsync(request, userId);
 
         if (!result.Success)
         {
             return BadRequest(result);
         }
 
-        return CreatedAtAction(nameof(GetById), new { id = result.Data!.Id }, result);
+        return CreatedAtAction(nameof(GetById), new { id = result.Data?.Id }, result);
     }
 
     [HttpPut("{id}")]
