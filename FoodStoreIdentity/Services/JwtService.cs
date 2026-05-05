@@ -23,7 +23,9 @@ public class JwtService : IJwtService
         [
             new Claim(ClaimTypes.NameIdentifier, user.Id),
             new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
-            new Claim(ClaimTypes.Email, user.Email ?? string.Empty)
+            new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
+            new Claim("fullName", user.FullName),
+            new Claim("address", user.Address ?? string.Empty)
         ];
 
         foreach (string role in roles)
