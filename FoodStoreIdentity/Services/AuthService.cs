@@ -31,6 +31,12 @@ public class AuthService : IAuthService
     {
         try
         {
+            ApplicationUser? existingUser = await _userManager.FindByEmailAsync(request.Email);
+            if (existingUser != null)
+            {
+                return ApiResponseDto<UserResponse>.ErrorResult("User with this email already exists.");
+            }
+
             ApplicationUser user = _mapper.Map<ApplicationUser>(request);
 
             IdentityResult result = await _userManager.CreateAsync(user, request.Password);
