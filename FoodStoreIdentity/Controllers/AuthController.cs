@@ -1,7 +1,9 @@
+using System.Security.Claims;
 using FoodStoreIdentity.DTOs;
 using FoodStoreIdentity.DTOs.Request;
 using FoodStoreIdentity.DTOs.Response;
 using FoodStoreIdentity.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodStoreIdentity.Controllers;
@@ -38,6 +40,27 @@ public class AuthController : ControllerBase
         if (!result.Success)
         {
             return Unauthorized(result);
+        }
+
+        return Ok(result);
+    }
+
+    [HttpGet("me")]
+    [Authorize]
+    public async Task<IActionResult> GetCurrentUser()
+    {
+        string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            return Unauthorized();
+        }
+
+        ApiResponseDto<UserResponse> result = await _authService.GetCurrentUserAsync(userId);
+
+        if (!result.Success)
+        {
+            return BadRequest(result);
         }
 
         return Ok(result);

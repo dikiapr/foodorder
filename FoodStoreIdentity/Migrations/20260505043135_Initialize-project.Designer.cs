@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodStoreIdentity.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260505040009_Initialize-project")]
+    [Migration("20260505043135_Initialize-project")]
     partial class Initializeproject
     {
         /// <inheritdoc />

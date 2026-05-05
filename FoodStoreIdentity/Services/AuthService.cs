@@ -69,4 +69,20 @@ public class AuthService : IAuthService
 
         return ApiResponseDto<LoginResponse>.SuccessResult(loginResponse, "Login successful.");
     }
+
+    public async Task<ApiResponseDto<UserResponse>> GetCurrentUserAsync(string userId)
+    {
+        ApplicationUser? user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+        {
+            return ApiResponseDto<UserResponse>.ErrorResult("User not found.");
+        }
+
+        IList<string> roles = await _userManager.GetRolesAsync(user);
+
+        UserResponse userResponse = _mapper.Map<UserResponse>(user);
+        userResponse.Role = roles.FirstOrDefault() ?? string.Empty;
+
+        return ApiResponseDto<UserResponse>.SuccessResult(userResponse);
+    }
 }

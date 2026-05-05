@@ -8,4 +8,5 @@ public interface IAuthService
 {
     Task<ApiResponseDto<UserResponse>> RegisterAsync(RegisterRequest request);
     Task<ApiResponseDto<LoginResponse>> LoginAsync(LoginRequest request);
+    Task<ApiResponseDto<UserResponse>> GetCurrentUserAsync(string userId);
 }
