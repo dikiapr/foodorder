@@ -29,7 +29,7 @@ public static class SeedData
             }
         }
 
-        var adminEmail = "admin@foodstore.com";
+        var adminEmail = "admin@gmail.com";
         var adminUser = await userManager.FindByEmailAsync(adminEmail);
         if (adminUser == null)
         {
@@ -37,7 +37,9 @@ public static class SeedData
             {
                 UserName = "admin",
                 Email = adminEmail,
-                EmailConfirmed = true
+                EmailConfirmed = true,
+                FullName = "Administrator",
+                Address = "Food Store HQ"
             };
 
             var result = await userManager.CreateAsync(adminUser, "Admin123!");

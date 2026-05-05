@@ -17,7 +17,7 @@ public class MappingProfile : Profile
         // Product
         CreateMap<Product, ProductResponse>()
             .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category != null ? src.Category.Name : null))
-            .ForMember(dest => dest.CreatedByName, opt => opt.MapFrom(src => src.CreatedBy != null ? src.CreatedBy.UserName : null));
+            .ForMember(dest => dest.CreatedByName, opt => opt.MapFrom(src => src.CreatedBy != null ? src.CreatedBy.FullName : null));
         CreateMap<CreateProductRequest, Product>();
         CreateMap<UpdateProductRequest, Product>();
 

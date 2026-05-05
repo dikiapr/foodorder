@@ -26,6 +26,7 @@ namespace FoodStoreIdentity.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -40,6 +41,7 @@ namespace FoodStoreIdentity.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("FullName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("LockoutEnabled")
