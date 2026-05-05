@@ -25,7 +25,7 @@ public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
             .MaximumLength(100).WithMessage("Full name must not exceed 100 characters.");
 
         RuleFor(x => x.Address)
-            .NotEmpty().WithMessage("Address is required.")
-            .MaximumLength(255).WithMessage("Address must not exceed 255 characters.");
+            .MaximumLength(255).WithMessage("Address must not exceed 255 characters.")
+            .When(x => x.Address != null);
     }
 }

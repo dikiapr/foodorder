@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodStoreIdentity.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260505010757_Initialize-project")]
+    [Migration("20260505012402_Initialize-project")]
     partial class Initializeproject
     {
         /// <inheritdoc />
@@ -29,7 +29,6 @@ namespace FoodStoreIdentity.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ConcurrencyStamp")
