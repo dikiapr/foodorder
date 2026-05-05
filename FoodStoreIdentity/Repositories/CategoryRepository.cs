@@ -14,7 +14,7 @@ public class CategoryRepository : ICategoryRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Category>> GetAllAsync()
+    public async Task<List<Category>> GetAllAsync()
     {
         List<Category> categories = await _context.Categories
             .OrderBy(category => category.Name)

@@ -18,11 +18,11 @@ public class CategoryService : ICategoryService
         _mapper = mapper;
     }
 
-    public async Task<ApiResponseDto<IEnumerable<CategoryResponse>>> GetAllAsync()
+    public async Task<ApiResponseDto<List<CategoryResponse>>> GetAllAsync()
     {
-        IEnumerable<Category> categories = await _categoryRepository.GetAllAsync();
-        IEnumerable<CategoryResponse> data = _mapper.Map<IEnumerable<CategoryResponse>>(categories);
-        return ApiResponseDto<IEnumerable<CategoryResponse>>.SuccessResult(data, "Categories retrieved successfully.");
+        List<Category> categories = await _categoryRepository.GetAllAsync();
+        List<CategoryResponse> data = _mapper.Map<List<CategoryResponse>>(categories);
+        return ApiResponseDto<List<CategoryResponse>>.SuccessResult(data, "Categories retrieved successfully.");
     }
 
     public async Task<ApiResponseDto<CategoryResponse>> GetByIdAsync(int id)

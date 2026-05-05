@@ -6,7 +6,7 @@ namespace FoodStoreIdentity.Interfaces;
 
 public interface IProductService
 {
-    Task<ApiResponseDto<IEnumerable<ProductResponse>>> GetAllAsync();
+    Task<ApiResponseDto<List<ProductResponse>>> GetAllAsync();
     Task<ApiResponseDto<ProductResponse>> GetByIdAsync(int id);
     Task<ApiResponseDto<ProductResponse>> CreateAsync(CreateProductRequest request);
     Task<ApiResponseDto<ProductResponse>> UpdateAsync(int id, UpdateProductRequest request);

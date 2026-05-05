@@ -4,7 +4,7 @@ namespace FoodStoreIdentity.Interfaces;
 
 public interface IProductRepository
 {
-    Task<IEnumerable<Product>> GetAllAsync();
+    Task<List<Product>> GetAllAsync();
     Task<Product?> GetByIdAsync(int id);
     Task AddAsync(Product product);
     Task UpdateAsync(Product product);

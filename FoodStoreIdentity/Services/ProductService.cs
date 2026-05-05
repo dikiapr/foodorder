@@ -18,11 +18,11 @@ public class ProductService : IProductService
         _mapper = mapper;
     }
 
-    public async Task<ApiResponseDto<IEnumerable<ProductResponse>>> GetAllAsync()
+    public async Task<ApiResponseDto<List<ProductResponse>>> GetAllAsync()
     {
-        IEnumerable<Product> products = await _productRepository.GetAllAsync();
-        IEnumerable<ProductResponse> data = _mapper.Map<IEnumerable<ProductResponse>>(products);
-        return ApiResponseDto<IEnumerable<ProductResponse>>.SuccessResult(data, "Products retrieved successfully.");
+        List<Product> products = await _productRepository.GetAllAsync();
+        List<ProductResponse> data = _mapper.Map<List<ProductResponse>>(products);
+        return ApiResponseDto<List<ProductResponse>>.SuccessResult(data, "Products retrieved successfully.");
     }
 
     public async Task<ApiResponseDto<ProductResponse>> GetByIdAsync(int id)

@@ -6,7 +6,7 @@ namespace FoodStoreIdentity.Interfaces;
 
 public interface ICategoryService
 {
-    Task<ApiResponseDto<IEnumerable<CategoryResponse>>> GetAllAsync();
+    Task<ApiResponseDto<List<CategoryResponse>>> GetAllAsync();
     Task<ApiResponseDto<CategoryResponse>> GetByIdAsync(int id);
     Task<ApiResponseDto<CategoryResponse>> CreateAsync(CreateCategoryRequest request);
     Task<ApiResponseDto<CategoryResponse>> UpdateAsync(int id, UpdateCategoryRequest request);

@@ -21,7 +21,7 @@ public class CategoryController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        ApiResponseDto<IEnumerable<CategoryResponse>> result = await _categoryService.GetAllAsync();
+        ApiResponseDto<List<CategoryResponse>> result = await _categoryService.GetAllAsync();
 
         if (!result.Success)
         {

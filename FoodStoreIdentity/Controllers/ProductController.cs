@@ -22,7 +22,7 @@ public class ProductController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        ApiResponseDto<IEnumerable<ProductResponse>> result = await _productService.GetAllAsync();
+        ApiResponseDto<List<ProductResponse>> result = await _productService.GetAllAsync();
 
         if (!result.Success)
         {

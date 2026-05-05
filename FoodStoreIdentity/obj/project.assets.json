@@ -3583,24 +3583,32 @@
     ]
   },
   "packageFolders": {
-    "/Users/diki/.nuget/packages/": {}
+    "C:\\Users\\Bootcamp-Diki\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/diki/Formulatrix/foodorder/FoodStoreIdentity/FoodStoreIdentity.csproj",
+      "projectUniqueName": "C:\\New folder (2)\\foodorder\\FoodStoreIdentity\\FoodStoreIdentity.csproj",
       "projectName": "FoodStoreIdentity",
-      "projectPath": "/Users/diki/Formulatrix/foodorder/FoodStoreIdentity/FoodStoreIdentity.csproj",
-      "packagesPath": "/Users/diki/.nuget/packages/",
-      "outputPath": "/Users/diki/Formulatrix/foodorder/FoodStoreIdentity/obj/",
+      "projectPath": "C:\\New folder (2)\\foodorder\\FoodStoreIdentity\\FoodStoreIdentity.csproj",
+      "packagesPath": "C:\\Users\\Bootcamp-Diki\\.nuget\\packages\\",
+      "outputPath": "C:\\New folder (2)\\foodorder\\FoodStoreIdentity\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/diki/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Bootcamp-Diki\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -3674,15 +3682,19 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.24, 8.0.24]"
+            "version": "[8.0.22, 8.0.22]"
           },
           {
-            "name": "Microsoft.NETCore.App.Host.osx-arm64",
-            "version": "[8.0.24, 8.0.24]"
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[8.0.22, 8.0.22]"
           },
           {
             "name": "Microsoft.NETCore.App.Ref",
-            "version": "[8.0.24, 8.0.24]"
+            "version": "[8.0.22, 8.0.22]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[8.0.22, 8.0.22]"
           }
         ],
         "frameworkReferences": {
@@ -3693,7 +3705,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.103/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
